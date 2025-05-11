@@ -76,6 +76,9 @@ By name:
 => Enable UFW firewall
 	sudo ufw enable
 	
+#############################################################
+###                         Editing                       ###
+#############################################################
 
 => Check git configuration
 	git config --list
@@ -88,3 +91,15 @@ By name:
 	git mv olderfolder newfolder
 
 	git mv foldername tempname && git mv tempname foldername 
+
+=> Display branch reference
+	git branch -r
+
+=> git fetch: Downloads commits, files and refs from a remote repository into local repo
+	git fetch <remote> (normally origin) <branch-name>
+	git fetch --all
+
+=> git pull: Fetch and download content from a remote repo and immediately update the local repo to match that content
+	git checkout <branch-name> /* Go to local branch needed to merge first */
+	git pull --verbose /* Display content being downloaded */ 
+	git pull --rebase origin /* I want to put my changes on top of what everybody else has done */
