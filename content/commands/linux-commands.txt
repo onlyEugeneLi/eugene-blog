@@ -2,6 +2,12 @@
 ###                       Networking                      ###
 #############################################################
 
+=> MacOS check IP address assigned by router
+	ifconfig -a | grep broadcast (Dsiplayed in en0)
+
+=> MacOS check IP address assigned by ISP outside LAN
+	curl ifconfig.me
+
 => IPv4 Network Gateway (Router console): 
 	route -n | grep 'UG[ \t]' | awk '{print }'
 
@@ -48,9 +54,21 @@
 	
 => Check status
 	sudo systemctl status ssh
-	
+
+=> SSH permission initialisation
+	chmod 700 ~/.ssh
+	chmod 600 ~/.ssh/authorized_keys
+	/* Edit SSH system settings */
+	vi /etc/ssh/sshd_config
+	/* Enable or uncomment following lines (Look out for uppercase) */
+	PubkeyAuthentication yes
+	AuthorizedKeysFile .ssh/authorized_keys
+
 => Enable SSH 
 	sudo systemctl enable ssh --now
+
+=> Restart SSH after new settings
+	sudo systemctl restart ssh
 	
 => Allowing connections in firewall
 	sudo ufw status {verbose}
@@ -59,11 +77,11 @@
 	
 => Delete UFW rule 
 
-By number:
+	By number:
 	sudo ufw status numbered
 	sudo ufw delete <numebr>
 
-By name:
+	By name:
 	sudo ufw delete allow <service-name>
 	<service-name>: http, ssh ...
 	
@@ -75,7 +93,31 @@ By name:
 	
 => Enable UFW firewall
 	sudo ufw enable
+
+=> SSH key generation
+	ssh-keygen
+
+=> SSH key change password
+	ssh-keygen -p
+	Enter filename /* Make sure you are in the same path as the private key */
+
+=> Copy public key to a client computer on the LAN
+	ssh-copy-id -i <.pub file path> username@IPv4 (for MacBook: computername@username.mynet)
+
+=> SSH into VirutalBox Ubuntu
+	ssh -p 22(host port) username@IPv4
+	ssh -i <pub-key path> -v username@target_ip /* Explicitly use the public key and display debug steps */
+
+	Simplify the command:
+	vi ~/.ssh/config 
+	Add following configuration:{
+		Host simple-name
+		  HostName <IPv4 address> 
+		  User <username>
+		  IdentityFile <private_key_file_path>
+	}
 	
+
 #############################################################
 ###                           Git                         ###
 #############################################################
