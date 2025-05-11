@@ -1,0 +1,90 @@
+#############################################################
+###                       Networking                      ###
+#############################################################
+
+=> IPv4 Network Gateway (Router console): 
+	route -n | grep 'UG[ \t]' | awk '{print }'
+
+=> Append text to file: 
+	cat file >> copy_file; 
+
+=> Check nginx status and logs: 
+	systemctl status nginx
+
+=> Check all processes: 
+	sudo netstat -tulpn
+
+=> Kill process: 
+	sudo kill -2 <PID>
+
+=> Activate Clipboard: 
+	sudo VBoxClient --clipboard 
+[reference](https://superuser.com/a/1367954/2747755)
+
+=> See local Private IP: 
+	hostname -I
+
+#############################################################
+###                         Editing                       ###
+#############################################################
+
+=> Remove first line of a file
+	tail -n +2 books.csv > tmp.csv && mv tmp.csv books.csv
+	sed -i '1d' books.csv
+	
+	
+=> Remove last line of a file
+	sed -i '$ d' foo.txt
+		-i [inplace]
+		$ [last line]
+		d [delete]
+		
+#############################################################
+###                     SSH & Firewall                    ###
+#############################################################
+
+=> Install SSH server
+	sudo apt install openssh-server
+	
+=> Check status
+	sudo systemctl status ssh
+	
+=> Enable SSH 
+	sudo systemctl enable ssh --now
+	
+=> Allowing connections in firewall
+	sudo ufw status {verbose}
+	sudo ufw allow { ssh | 22 | OpenSSH }
+	sudo ufw allow { http | 80 }
+	
+=> Delete UFW rule 
+
+By number:
+	sudo ufw status numbered
+	sudo ufw delete <numebr>
+
+By name:
+	sudo ufw delete allow <service-name>
+	<service-name>: http, ssh ...
+	
+=> Check port status
+	sudo lsof -i -P -n | grep LISTEN
+
+=> Check UFW firewall configuration rules
+	sudo ufw show added
+	
+=> Enable UFW firewall
+	sudo ufw enable
+	
+
+=> Check git configuration
+	git config --list
+
+=> Update user.name or user.email
+	git config --global user.name "<username>"
+	git config --global user.name "<user-private-email>"
+
+=> Change a folder's name from olderfolder to newfolder
+	git mv olderfolder newfolder
+
+	git mv foldername tempname && git mv tempname foldername 
