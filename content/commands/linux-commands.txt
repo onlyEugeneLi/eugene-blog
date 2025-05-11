@@ -48,8 +48,6 @@
 => Remove directory
 	[Remove direcotry and content] rm -rv <directory>
 	[Remove empty directory] rmdir <directory>
-
-=> Remove directory 
 		
 #############################################################
 ###                     SSH & Firewall                    ###
