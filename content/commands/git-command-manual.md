@@ -11,3 +11,8 @@ Unstage files / Undo `git add`
 ```
 git restore --staged {file_name}
 ```
+
+Remove directory and all its content
+```
+git rm -rv <directory>
+```

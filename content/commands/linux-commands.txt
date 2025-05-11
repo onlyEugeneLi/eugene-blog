@@ -31,7 +31,7 @@
 	hostname -I
 
 #############################################################
-###                         Editing                       ###
+###                      File Editing                     ###
 #############################################################
 
 => Remove first line of a file
@@ -44,6 +44,12 @@
 		-i [inplace]
 		$ [last line]
 		d [delete]
+
+=> Remove directory
+	[Remove direcotry and content] rm -rv <directory>
+	[Remove empty directory] rmdir <directory>
+
+=> Remove directory 
 		
 #############################################################
 ###                     SSH & Firewall                    ###
@@ -145,3 +151,6 @@
 	git checkout <branch-name> /* Go to local branch needed to merge first */
 	git pull --verbose /* Display content being downloaded */ 
 	git pull --rebase origin /* I want to put my changes on top of what everybody else has done */
+
+=> Remove directory and all its content
+	git rm -rv <directory>
