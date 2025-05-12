@@ -16,3 +16,13 @@ Remove directory and all its content
 ```
 git rm -rv <directory>
 ```
+
+Fetch commits from remote repo
+```
+git fetch origin /*location*/ main /*branch name*/
+```
+
+Merge remote commits to local main branch
+```
+git merge --no-ff origin/main
+```
