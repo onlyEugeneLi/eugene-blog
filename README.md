@@ -4,9 +4,13 @@ I create this space to store my study note.
 
 # Table of Contents
 
+## 🪟 Windows & Powershell
+
+[NPM and aws-azure-login setup](content/commands/npm-aws-login-commands.md)
+
 ## 😺 Git 
 
-[git command mannual](content/git-note/git-command-manual.md)
+[git command mannual](content/commands/git-command-manual.md)
 
 ## 🕸️ Software Architecture
 
