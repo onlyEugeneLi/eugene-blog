@@ -12,6 +12,11 @@ Unstage files / Undo `git add`
 git restore --staged {file_name}
 ```
 
+Revert local merge from remote
+```
+git reset --hard HEAD~1
+```
+
 Remove directory and all its content
 ```
 git rm -rv <directory>
