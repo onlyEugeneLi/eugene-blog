@@ -1,4 +1,4 @@
-## Boolean operators
+# Boolean operators
 
 [StackOverflow: Python: justification for boolean operators (and, or) not returning booleans](https://stackoverflow.com/questions/69510472/python-justification-for-boolean-operators-and-or-not-returning-booleans#:~:text=In%20Python%20\(and%20some%20other,falsey%2C%20then%20x%20%2C%20otherwise%20y)
 
@@ -14,18 +14,18 @@
 
 `and`: returns whichever is falsey; if **both true**, return the **latter** one
 
-## Arithmetic
+# Arithmetic
 
-### Ceiling Division
+## Ceiling Division
 
 $$
 ceil(\frac{x}{y}) = \frac{x + y - 1}{y}
 $$
 
 
-## Funtions
+# Funtions
 
-### `sort()`
+## `sort()`
 
 The `sort()` method sorts the list ascending by default.
 
@@ -45,7 +45,7 @@ sort(reverse=True|False, key=myFunc)
     ```
 
 
-### `ord()`
+## `ord()`
 
 `ord()` gives you integer representation of a character. Take a look at an *ASCII table* to find out what they are. *'A'* has an ASCII value of *65*, *'B'* has an ASCII value of *66*, and so on.
 
@@ -55,3 +55,10 @@ print(diff)
 ```
 > \> 1
 
+## `bisect()`
+
+This function returns the position where a number should be inserted to keep the list sorted. If the number already exists, it returns the rightmost insertion point.
+
+```
+bisect.bisect(list, num, beg=0, end=len(list))
+```
