@@ -9,3 +9,11 @@
 > `x and y` if `x` is falsey, then `x`, otherwise `y`
 
 `and`: returns whichever is falsey; if **both true**, return the **latter** one
+
+### Arithmetic
+
+Ceiling Division
+
+$$
+ceil(\frac{x}{y}) = \frac{x + y - 1}{y}
+$$
