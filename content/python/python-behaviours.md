@@ -62,3 +62,17 @@ This function returns the position where a number should be inserted to keep the
 ```
 bisect.bisect(list, num, beg=0, end=len(list))
 ```
+
+## String `startswith()`
+
+`startswith()` method in Python checks whether a given string starts with a specific prefix. 
+
+```
+startswith("for")
+
+# check the string using the start parameter to begin from a specific index
+s.startswith("for", 5)
+
+# check if the string starts with any one of several prefixes by passing a tuple of prefixes
+s.startswith(("Geeks", "G"))
+```
