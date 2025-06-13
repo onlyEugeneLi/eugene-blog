@@ -43,3 +43,15 @@ sort(reverse=True|False, key=myFunc)
 
     cars.sort(key=myFunc)
     ```
+
+
+### `ord()`
+
+`ord()` gives you integer representation of a character. Take a look at an *ASCII table* to find out what they are. *'A'* has an ASCII value of *65*, *'B'* has an ASCII value of *66*, and so on.
+
+```
+diff = ord('B') - ord('A')
+print(diff)
+```
+> \> 1
+
