@@ -104,3 +104,69 @@ Returns “true” when the last letters of a string match another string
 ### `.find()`
 
 Returns index of the first occurrence of a substring; if the substring does not occur, -1 is returned.
+
+# 🧠 Bit Manipulation
+
+
+## 🔧 Bitwise Operators
+
+| Operator     | Symbol | Description                     | Example (`a = 5`, `b = 3`)     | Result |
+|--------------|--------|---------------------------------|--------------------------------|--------|
+| AND          | `&`    | Bitwise AND                     | `a & b` → `0b0101 & 0b0011`    | `1`    |
+| OR           | `|`    | Bitwise OR                      | `a | b` → `0b0101 | 0b0011`    | `7`    |
+| XOR (exclusive or) | `^`    | Bitwise XOR                     | `a ^ b` → `0b0101 ^ 0b0011`    | `6`    |
+| NOT          | `~`    | Bitwise NOT (1's complement)    | `~a` → `~0b0101`               | `-6`   |
+| Left Shift   | `<<`   | Shift bits left (multiply by 2) | `a << 1` → `0b1010`            | `10`   |
+| Right Shift  | `>>`   | Shift bits right (divide by 2)  | `a >> 1` → `0b0010`            | `2`    |
+---
+**XOR (Exclusive OR)**
+* Mainly used to detect difference
+* same -> 0, different -> 1
+* 0 remains 0, 1 stands out
+* 去同存异
+
+**Mask `mask = i << i`**
+
+i -- for loop index
+
+* Used to detect whether a bit is 1 `a & mask`
+
+---
+
+## 🧮 Common Bit Operations
+
+### 1. Check if a bit is set
+```python
+n = 5  # 0b0101
+bit = 2
+is_set = (n & (1 << bit)) != 0
+```
+
+### 2. Set a bit
+
+```python
+n = 5  # 0b0101
+bit = 1
+n |= (1 << bit)  # Result: 0b0111 (7)
+```
+
+### 3. Clear a bit
+
+```python
+n = 5  # 0b0101
+bit = 0
+n &= ~(1 << bit)  # Result: 0b0100 (4)
+```
+
+### 4. Count set bits (Hamming weight)
+
+```python
+bin(13).count('1')  # 13 = 0b1101 → 3 set bits
+```
+
+### 5. Check if a number is a power of 2
+
+```python
+n = 8
+is_power_of_two = n > 0 and (n & (n - 1)) == 0
+```0
