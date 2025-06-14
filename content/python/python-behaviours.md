@@ -81,7 +81,7 @@ This function returns the position where a number should be inserted to keep the
 bisect.bisect(list, num, beg=0, end=len(list))
 ```
 
-## String 
+## 🔠 String 
 
 ### `.startswith()`
 
@@ -104,6 +104,100 @@ Returns “true” when the last letters of a string match another string
 ### `.find()`
 
 Returns index of the first occurrence of a substring; if the substring does not occur, -1 is returned.
+
+[DigitalOcean - Join Python List: Techniques, Examples, and Best Practices](https://www.digitalocean.com/community/tutorials/python-join-list)
+
+### `join()` function
+
+
+```
+vowels = ["a", "e", "i", "o", "u"]
+
+vowelsCSV = ",".join(vowels)
+
+# vowelsCSV = "a,e,i,o,u" (String)
+```
+
+> 🚫 Multiple data-types cannot be combined into a single String with join() function.
+
+### `split()` function
+
+```
+split = vowelsCSV.split(',')
+print('List: {0}'.format(split))
+
+# List: ["a", "e", "i", "o", "u"]
+```
+
+### `format()` function
+
+💡 [W3School - Python String format() Method](https://www.w3schools.com/python/ref_string_format.asp)
+
+#### Insert values into strings
+
+```
+txt1 = "My name is {fname}, I'm {age}".format(fname = "John", age = 36)
+txt2 = "My name is {0}, I'm {1}".format("John",36)
+txt3 = "My name is {}, I'm {}".format("John",36)
+```
+
+#### Format numbers -- decimals display
+
+```
+txt = "For only {price:.2f} dollars!"
+print(txt.format(price = 49))
+```
+
+| Specifier | Description                                                                 |
+|-----------|-----------------------------------------------------------------------------|
+| `:<`      | Left aligns the result (within the available space)                         |
+| `:>`      | Right aligns the result (within the available space)                        |
+| `:^`      | Center aligns the result (within the available space)                       |
+| `:=`      | Places the sign to the leftmost position                                    |
+| `:+`      | Use a plus sign to indicate if the result is positive or negative           |
+| `:-`      | Use a minus sign for negative values only                                   |
+| `: `      | Use a space to insert an extra space before positive numbers                |
+| `:,`      | Use a comma as a thousand separator                                        |
+| `:_`      | Use an underscore as a thousand separator                                  |
+| `:b`      | Binary format                                                               |
+| `:c`      | Converts the value into the corresponding Unicode character                |
+| `:d`      | Decimal format                                                              |
+| `:e`      | Scientific format (lowercase `e`)                                           |
+| `:E`      | Scientific format (uppercase `E`)                                           |
+| `:f`      | Fixed-point number format                                                   |
+| `:F`      | Fixed-point format (uppercase, shows `INF`/`NAN`)                           |
+| `:g`      | General format (auto-chooses `e` or `f`)                                    |
+| `:G`      | General format (uses uppercase `E` for scientific)                          |
+| `:o`      | Octal format                                                                |
+| `:x`      | Hex format (lowercase)                                                      |
+| `:X`      | Hex format (uppercase)                                                      |
+| `:n`      | Number format (locale-aware, uses separators)                               |
+| `:%`      | Percentage format                                                           |
+
+Notes
+
+* **Alignment** specifiers (`:<`, `:>`, `:^`, `:=`) work with a width value (e.g., `f"{x:<10}"`)
+
+---
+
+## 📚 Permutations and Combinations
+
+### `itertools.product()`
+
+Syntax 
+
+`itertools.product(*iterables, repeat=1)`
+
+```
+from itertools import product
+print(list(product("AB", "CD")))
+```
+
+Using the repeat parameter of the product() function to generate the Cartesian product of the list [0, 1] repeated 3 times.
+```
+from itertools import product
+print(list(product([0, 1], repeat=3)))
+```
 
 # 🧠 Bit Manipulation
 
@@ -171,77 +265,3 @@ n = 8
 is_power_of_two = n > 0 and (n & (n - 1)) == 0
 ```
 
-# String
-
-[DigitalOcean - Join Python List: Techniques, Examples, and Best Practices](https://www.digitalocean.com/community/tutorials/python-join-list)
-
-## `join()` function
-
-
-```
-vowels = ["a", "e", "i", "o", "u"]
-
-vowelsCSV = ",".join(vowels)
-
-# vowelsCSV = "a,e,i,o,u" (String)
-```
-
-> 🚫 Multiple data-types cannot be combined into a single String with join() function.
-
-## `split()` function
-
-```
-split = vowelsCSV.split(',')
-print('List: {0}'.format(split))
-
-# List: ["a", "e", "i", "o", "u"]
-```
-
-## `format()` function
-
-💡 [W3School - Python String format() Method](https://www.w3schools.com/python/ref_string_format.asp)
-
-### Insert values into strings
-
-```
-txt1 = "My name is {fname}, I'm {age}".format(fname = "John", age = 36)
-txt2 = "My name is {0}, I'm {1}".format("John",36)
-txt3 = "My name is {}, I'm {}".format("John",36)
-```
-
-### Format numbers -- decimals display
-
-```
-txt = "For only {price:.2f} dollars!"
-print(txt.format(price = 49))
-```
-
-| Specifier | Description                                                                 |
-|-----------|-----------------------------------------------------------------------------|
-| `:<`      | Left aligns the result (within the available space)                         |
-| `:>`      | Right aligns the result (within the available space)                        |
-| `:^`      | Center aligns the result (within the available space)                       |
-| `:=`      | Places the sign to the leftmost position                                    |
-| `:+`      | Use a plus sign to indicate if the result is positive or negative           |
-| `:-`      | Use a minus sign for negative values only                                   |
-| `: `      | Use a space to insert an extra space before positive numbers                |
-| `:,`      | Use a comma as a thousand separator                                        |
-| `:_`      | Use an underscore as a thousand separator                                  |
-| `:b`      | Binary format                                                               |
-| `:c`      | Converts the value into the corresponding Unicode character                |
-| `:d`      | Decimal format                                                              |
-| `:e`      | Scientific format (lowercase `e`)                                           |
-| `:E`      | Scientific format (uppercase `E`)                                           |
-| `:f`      | Fixed-point number format                                                   |
-| `:F`      | Fixed-point format (uppercase, shows `INF`/`NAN`)                           |
-| `:g`      | General format (auto-chooses `e` or `f`)                                    |
-| `:G`      | General format (uses uppercase `E` for scientific)                          |
-| `:o`      | Octal format                                                                |
-| `:x`      | Hex format (lowercase)                                                      |
-| `:X`      | Hex format (uppercase)                                                      |
-| `:n`      | Number format (locale-aware, uses separators)                               |
-| `:%`      | Percentage format                                                           |
-
-Notes
-
-* **Alignment** specifiers (`:<`, `:>`, `:^`, `:=`) work with a width value (e.g., `f"{x:<10}"`)
