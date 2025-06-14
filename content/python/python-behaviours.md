@@ -25,7 +25,9 @@ $$
 
 # Funtions
 
-## `sort()`
+## Sorting
+
+### `sort()` -- in place sort
 
 The `sort()` method sorts the list ascending by default.
 
@@ -45,6 +47,22 @@ sort(reverse=True|False, key=myFunc)
     ```
 
 
+### `sorted()` -- create new sorted list
+
+```
+a = ["banana", "apple", "cherry"]
+
+# Sorting the list
+res = sorted(a)
+print(res)
+```
+
+### Lexicographical order
+
+Dicitonary order -- the way in which words are ordered in a dictionary
+
+For example, the word *"children"* will appear before (and can be considered smaller) than the word *"chill"* because the first four letters of the two words are the same but the letter at the *fifth* position in "children" (i.e. *d* ) comes before (or is smaller than) the letter at the *fifth* position in "chill" (i.e. *l* ). 
+
 ## `ord()`
 
 `ord()` gives you integer representation of a character. Take a look at an *ASCII table* to find out what they are. *'A'* has an ASCII value of *65*, *'B'* has an ASCII value of *66*, and so on.
@@ -63,7 +81,9 @@ This function returns the position where a number should be inserted to keep the
 bisect.bisect(list, num, beg=0, end=len(list))
 ```
 
-## String `startswith()`
+## String 
+
+### `.startswith()`
 
 `startswith()` method in Python checks whether a given string starts with a specific prefix. 
 
@@ -76,3 +96,11 @@ s.startswith("for", 5)
 # check if the string starts with any one of several prefixes by passing a tuple of prefixes
 s.startswith(("Geeks", "G"))
 ```
+
+### `.endswith()`
+
+Returns “true” when the last letters of a string match another string
+
+### `.find()`
+
+Returns index of the first occurrence of a substring; if the substring does not occur, -1 is returned.
