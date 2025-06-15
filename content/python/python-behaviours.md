@@ -126,6 +126,22 @@ print('List: {0}'.format(split))
 # List: ["a", "e", "i", "o", "u"]
 ```
 
+## `strip()` function
+
+`strip()` removes all leading and trailing whitespace by default.
+
+```python
+s.strip(char)
+```
+
+```python
+s = "  GeeksforGeeks  "
+res = s.strip()
+print(res)
+
+# Console output: GeeksforGeeks
+```
+
 ## `format()` function
 
 💡 [W3School - Python String format() Method](https://www.w3schools.com/python/ref_string_format.asp)
