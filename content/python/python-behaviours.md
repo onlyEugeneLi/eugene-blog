@@ -23,11 +23,9 @@ ceil(\frac{x}{y}) = \frac{x + y - 1}{y}
 $$
 
 
-# Funtions
+# Sorting
 
-## Sorting
-
-### `sort()` -- in place sort
+## `sort()` -- in place sort
 
 The `sort()` method sorts the list ascending by default.
 
@@ -45,9 +43,14 @@ sort(reverse=True|False, key=myFunc)
 
     cars.sort(key=myFunc)
     ```
+### Lexicographical order
+
+Dicitonary order -- the way in which words are ordered in a dictionary
+
+For example, the word *"children"* will appear before (and can be considered smaller) than the word *"chill"* because the first four letters of the two words are the same but the letter at the *fifth* position in "children" (i.e. *d* ) comes before (or is smaller than) the letter at the *fifth* position in "chill" (i.e. *l* ). 
 
 
-### `sorted()` -- create new sorted list
+## `sorted()` -- create new sorted list
 
 ```python
 a = ["banana", "apple", "cherry"]
@@ -56,12 +59,6 @@ a = ["banana", "apple", "cherry"]
 res = sorted(a)
 print(res)
 ```
-
-### Lexicographical order
-
-Dicitonary order -- the way in which words are ordered in a dictionary
-
-For example, the word *"children"* will appear before (and can be considered smaller) than the word *"chill"* because the first four letters of the two words are the same but the letter at the *fifth* position in "children" (i.e. *d* ) comes before (or is smaller than) the letter at the *fifth* position in "chill" (i.e. *l* ). 
 
 ## `ord()`
 
@@ -81,9 +78,9 @@ This function returns the position where a number should be inserted to keep the
 bisect.bisect(list, num, beg=0, end=len(list))
 ```
 
-## 🔠 String 
+# 🔠 String 
 
-### `.startswith()`
+## `.startswith()`
 
 `startswith()` method in Python checks whether a given string starts with a specific prefix. 
 
@@ -97,17 +94,17 @@ s.startswith("for", 5)
 s.startswith(("Geeks", "G"))
 ```
 
-### `.endswith()`
+## `.endswith()`
 
 Returns “true” when the last letters of a string match another string
 
-### `.find()`
+## `.find()`
 
 Returns index of the first occurrence of a substring; if the substring does not occur, -1 is returned.
 
 [DigitalOcean - Join Python List: Techniques, Examples, and Best Practices](https://www.digitalocean.com/community/tutorials/python-join-list)
 
-### `join()` function
+## `join()` function
 
 
 ```python
@@ -120,7 +117,7 @@ vowelsCSV = ",".join(vowels)
 
 > 🚫 Multiple data-types cannot be combined into a single String with join() function.
 
-### `split()` function
+## `split()` function
 
 ```python
 split = vowelsCSV.split(',')
@@ -129,11 +126,11 @@ print('List: {0}'.format(split))
 # List: ["a", "e", "i", "o", "u"]
 ```
 
-### `format()` function
+## `format()` function
 
 💡 [W3School - Python String format() Method](https://www.w3schools.com/python/ref_string_format.asp)
 
-#### Insert values into strings
+### Insert values into strings
 
 ```python
 txt1 = "My name is {fname}, I'm {age}".format(fname = "John", age = 36)
@@ -141,7 +138,7 @@ txt2 = "My name is {0}, I'm {1}".format("John",36)
 txt3 = "My name is {}, I'm {}".format("John",36)
 ```
 
-#### Format numbers -- decimals display
+### Format numbers -- decimals display
 
 ```python
 txt = "For only {price:.2f} dollars!"
@@ -180,7 +177,11 @@ Notes
 
 ---
 
-## 📚 Permutations and Combinations
+# 📚 Permutations and Combinations
+
+## 🔄 Iterables - `itertools` Library
+
+[GeeksforGeeks - Python Itertools](https://www.geeksforgeeks.org/python/python-itertools/)
 
 ### `itertools.product()`
 
@@ -198,9 +199,8 @@ Using the repeat parameter of the product() function to generate the Cartesian p
 from itertools import product
 print(list(product([0, 1], repeat=3)))
 ```
---- 
 
-## 🔄 Iterables
+---
 
 ### `enumerate()`
 
@@ -221,6 +221,65 @@ print(list(enumerate(a)))
 # Index 2: Geeks
 # [(0, 'Geeks'), (1, 'for'), (2, 'Geeks')]
 ```
+
+---
+
+### `chain()`
+
+```python
+import itertools
+
+# initializing list 1
+li1 = [1, 4, 5, 7]
+
+# initializing list 2
+li2 = [1, 6, 5, 9]
+
+# initializing list 3
+li3 = [8, 10, 5, 4]
+
+# using chain() to print all elements of lists
+print("All values in mentioned chain are : ", end="")
+print(list(itertools.chain(li1, li2, li3)))
+```
+
+---
+
+### `combinations()`
+
+抽到不放回
+
+```python
+from itertools import combinations
+list(combinations('ABC', 2))
+
+# [('A', 'B'), ('A', 'C'), ('B', 'C')]
+```
+
+抽到放回 `combinations_with_replacement()`
+
+```python
+from itertools import combinations_with_replacement
+list(combinations_with_replacement('AB',2))
+# [('A', 'A'), ('A', 'B'), ('B', 'B')]
+```
+
+---
+
+### `permutations()`
+
+`Permutations()` is used to generate all possible permutations of an iterable
+
+(Orders matter)
+
+```python
+print("All the permutations of the given container is:")
+print(list(permutations(range(3), 2)))
+
+# All the permutations of the given container is:
+# [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)]
+```
+
 
 # 🧠 Bit Manipulation
 
