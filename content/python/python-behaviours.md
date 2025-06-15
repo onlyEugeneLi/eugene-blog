@@ -198,6 +198,29 @@ Using the repeat parameter of the product() function to generate the Cartesian p
 from itertools import product
 print(list(product([0, 1], repeat=3)))
 ```
+--- 
+
+## 🔄 Iterables
+
+### `enumerate()`
+
+enumerate() function adds a counter to each item in a list or other iterable
+
+```
+a = ["Geeks", "for", "Geeks"]
+
+# Iterating list using enumerate to get both index and element
+for i, name in enumerate(a):
+    print(f"Index {i}: {name}")
+
+# Converting to a list of tuples
+print(list(enumerate(a)))
+
+# Index 0: Geeks
+# Index 1: for
+# Index 2: Geeks
+# [(0, 'Geeks'), (1, 'for'), (2, 'Geeks')]
+```
 
 # 🧠 Bit Manipulation
 
