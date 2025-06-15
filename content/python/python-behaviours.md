@@ -405,12 +405,12 @@ def CSVDinosaurs(path1, path2):
     g = 9.8
     stride_map = {}
     with open(path2, 'r') as f:
-        line = f.readline()
-        line = f.readline()
+        line = f.readline() # Read title line
+        line = f.readline() # Read first data line
         while line:
             tmp = line.split(",")
             name, stride, stance = tmp
-            if stance.strip() == "bipedal":
+            if stance.strip() == "bipedal": # strip() removes the newline character (\n)
                 stride_map[name] = float(stride)
             line = f.readline()
 
@@ -455,6 +455,35 @@ speed_df = pd.merge(leg_df, stride_df, how = 'left', on = 'NAME')
 speed_df_method_1 = speed_df[speed_df['STANCE'] == 'bipedal']
 # loc[[row], [column]]
 speed_df_method_2 = speed_df.loc[speed_df['STANCE'] == 'bipedal']
+```
+
+## Read a file line by line 
+
+### `file.readline()`
+
+used to read a single line from a file
+
+```python
+file.readline(number_of_char)
+```
+
+Reading Multiple Lines with a Loop
+
+```python
+with open("example.txt", "r") as file:
+    while True:
+        line = file.readline()
+        if not line:
+            break  # Stop when end of file is reached
+        print(line.strip())
+```
+
+### for loop
+
+```python
+with open('filename.txt', 'r') as file:
+    for line in file:
+        print(line.strip())
 ```
 
 ## Pandas csv file handling
