@@ -4,6 +4,10 @@ I create this space to store my study note.
 
 # Table of Contents
 
+## Python
+
+[Python behaviours](content/python/python-behaviours.md)
+
 ## 🪟 Windows & Powershell
 
 [NPM and aws-azure-login setup](content/commands/npm-aws-login-commands.md)
