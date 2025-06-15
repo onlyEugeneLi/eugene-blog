@@ -420,3 +420,31 @@ class FooBar:
             printBar()
             self.foo_lock.release()
 ```
+
+# Data Structures
+
+## 📚 Dictionary
+
+```python
+d = {'a': 1, 'b': 2}
+```
+
+Ordered dicitonary
+
+OrderedDict preserves **insertion order** reliably.
+
+```python
+from collections import OrderedDict
+
+od = OrderedDict([('a', 1), ('b', 2), ('c', 3), ('d', 4)])
+od['c'] = 5  
+
+for k, v in od.items():
+    print(k, v)
+```
+
+### Attributes
+
+* **`.item()`**: group key-value pairs in Dict into a list tuples
+* **`.pop(key)`**: removes the item with the specified key name
+* **`.popitem(key)`**: removes the last inserted item 
