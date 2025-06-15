@@ -425,6 +425,37 @@ path2 = "dataset2.csv"
 CSVDinosaurs(path1, path2)
 ```
 
+Using Pandas to read csv file
+
+```python
+import pandas as pd
+
+stride_df = pd.read_csv('dataset2.csv')
+
+leg_df = pd.read_csv('dataset1.csv')
+
+speed_df = pd.merge(leg_df, stride_df, how = 'left', on = 'NAME')
+
+speed_df_method_1 = speed_df[speed_df['STANCE'] == 'bipedal']
+# loc[[row], [column]]
+speed_df_method_2 = speed_df.loc[speed_df['STANCE'] == 'bipedal']
+```
+
+## Pandas csv file handling
+
+```python
+import pandas
+
+csv = pandas.read_csv(file_path, delimiter=)
+```
+
+### `loc[rows, columns]`
+
+```
+result = df.loc[:, ['A', 'D']]
+```
+
+
 
 # Concurrency and Threading
 
