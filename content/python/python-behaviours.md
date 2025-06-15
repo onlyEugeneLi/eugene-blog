@@ -1,3 +1,92 @@
+# Built-in Functions
+
+## `abs()`
+
+Return the absolute value of a number
+
+## `all()` & `any()`
+
+* `all()`: Return True if all elements of the iterable are true
+* `any()`: Return True if any element of the iterable is true
+
+## `bin(x)`
+Convert an integer number to a binary **string** prefixed with “0b”.
+
+## `bool()`
+
+Return a Boolean value of an expression, i.e. one of True or False
+
+## `divmod()`
+
+For integers, the result is the same as `(a // b, a % b)`
+
+## `enumerate(iterable, start=0)`
+
+returns a tuple containing a count (from start which defaults to 0) and the values obtained from iterating over iterable
+
+```python
+seasons = ['Spring', 'Summer', 'Fall', 'Winter']
+list(enumerate(seasons))
+
+# [(0, 'Spring'), (1, 'Summer'), (2, 'Fall'), (3, 'Winter')]
+```
+
+## `filter(function, iterable)`
+
+```python
+a = [1, 2, 3, 4, 5, 6]
+b = filter(lambda x: x % 2 == 0, a)
+
+print(list(b))
+# [2, 4, 6]
+```
+
+## `map((function, iterable, *iterables))`
+
+Return an iterator that applies function to every item of iterable, yielding the results
+
+With multiple iterables, the iterator stops when the shortest iterable is exhausted
+
+```python
+a = [1, 2, 3, 4, 5, 6]
+
+# First, filter even numbers
+b = filter(lambda x: x % 2 == 0, a)
+
+# Then, double the filtered numbers
+c = map(lambda x: x * 2, b)
+
+print(list(c))
+# [4, 8, 12]
+```
+
+## `reversed(seq)`
+
+Return a reverse iterator
+
+```python
+a = [1, 2, 3, 4, 1, 2, 6] 
+
+a.reverse() 
+
+print(a)
+# [6, 2, 1, 4, 3, 2, 1]
+```
+
+## `round()`
+
+四舍五入
+
+* 0.5 or -0.5 归 0
+
+## `sorted(iterable, key=None, reverse=False)`
+
+Return a new sorted list from the items in iterable
+* False: ascending 小到大
+* True: descending 大到小
+
+`sort()` in place
+
 # Boolean operators
 
 [StackOverflow: Python: justification for boolean operators (and, or) not returning booleans](https://stackoverflow.com/questions/69510472/python-justification-for-boolean-operators-and-or-not-returning-booleans#:~:text=In%20Python%20\(and%20some%20other,falsey%2C%20then%20x%20%2C%20otherwise%20y)
