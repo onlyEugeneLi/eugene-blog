@@ -87,6 +87,20 @@ Return a new sorted list from the items in iterable
 
 `sort()` in place
 
+## Random numbers
+
+```python
+import random
+random.seed(5) # For reproducible results
+
+random.randint(5, 15)
+# 8
+
+a = [1, 2, 3, 4, 5, 6]
+print(random.choice(a))
+# 2
+```
+
 # Boolean operators
 
 [StackOverflow: Python: justification for boolean operators (and, or) not returning booleans](https://stackoverflow.com/questions/69510472/python-justification-for-boolean-operators-and-or-not-returning-booleans#:~:text=In%20Python%20\(and%20some%20other,falsey%2C%20then%20x%20%2C%20otherwise%20y)
