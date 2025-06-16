@@ -181,6 +181,37 @@ This function returns the position where a number should be inserted to keep the
 bisect.bisect(list, num, beg=0, end=len(list))
 ```
 
+## `bisect.insort()`
+
+Inserts a number into the list at the rightmost appropriate position, keeping the list sorted.
+
+```python
+bisect.insort(list, num, beg=0, end=len(list))
+```
+
+## `list.insert()`
+
+```python
+# create a list of numbers
+numbers = [2, 3, 5, 7]
+
+# insert 11 at index 4
+numbers.insert(4, 11)
+# insert 5 at index 2
+numbers.insert(2, 5)
+
+# [2, 3, 5, 5, 7, 11]
+```
+
+## `list.index()`
+
+```python
+numbers = [2, 3, 5, 5, 7]
+numbers.index(5)
+
+# >>> 2 // first ocurrence
+```
+
 # 🔠 String 
 
 ## `.startswith()`
