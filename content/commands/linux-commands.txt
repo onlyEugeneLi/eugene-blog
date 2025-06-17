@@ -163,13 +163,19 @@
 	system-wide cron configuration file at (/etc/crontab)
 
 => Check cron utility status
-	sudo systemctl status crond
+	--------------------------------
+	 sudo systemctl status crond
+	--------------------------------
 
 => Check cron configuration files
 	User specific:
-		ls -l /etc/cron.d/
+		------------------------
+		 ls -l /etc/cron.d/
+		------------------------
 	System-wide:
-		ls -l /etc/crontab
+		------------------------
+		 ls -l /etc/crontab
+		------------------------
 	
 => Schedule jobs with 'cron'
 	
@@ -190,11 +196,14 @@
 
 
 => Checking whether the current user has any scheduled jobs
-	crontab -l
+	----------------
+	 crontab -l
+	----------------
 
 => Edit the crontab file and add the necessary parameters
-	crontab -e 
-	---
+	----------------
+	 crontab -e 
+	----------------
 	Tasks:
 
 	1. (/home/localuser/source) be backed up incrementally close to the end of every day (11 pm) to the directory (/home/localuser/destination)
@@ -204,4 +213,39 @@
 		00 12 * * 6	localuser	cp -R /home/localuser/destination/* /home/localuser/full/
 
 => To remove the scheduled jobs, simply run crontab (-r)
-	crontab -r
+	----------------
+	 crontab -r
+	----------------
+
+#############################################################
+###                   System Admin                        ###
+#############################################################
+
+=> CPU utilisation
+	MacOS:
+	-------------------------------------------------
+	 ps -A -o %cpu | awk '{s+=$1} END {print s "%"}'
+	-------------------------------------------------
+		ps is the process status tool. Most *nix like operating systems support it. There are a few flags we want to pass to it:
+			-A means all processes, not just the ones running as you.
+			-o lets us specify the output we want. In this case, it all we want to the cpu% column of ps's output.
+	
+	Linux:
+	-------
+	 lscpu
+	-------
+
+=> Display memory usage information
+	----------
+	 free -h 
+	----------
+
+=> Show disk space usage
+	----------
+	 df -h 
+	----------
+
+=> Estimate file and directory sizes
+	-----------------
+	 du -hs directory # provides the total size of the specified directory
+	-----------------
