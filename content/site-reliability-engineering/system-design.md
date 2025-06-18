@@ -204,3 +204,13 @@ At large enough scale, the retries can compete with the new requests (which migh
 ## Self healing systems
 
 A self-healing system adds more instances in this scenario to replace the failed instances. <span style='color:red'>**Auto-scaling**</span> like this can also help when there is a sudden spike in query. If our application runs on a public cloud, it might simply be a matter of spinning up more virtual machines. 
+
+
+# Backups
+
+## Types of backups
+
+[Types of Backups](https://www.spanning.com/blog/types-of-backup-understanding-full-differential-incremental-backup/)
+
+
+full, differential, and incremental
