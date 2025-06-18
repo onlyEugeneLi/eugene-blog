@@ -179,7 +179,7 @@ A resilient system is one that can keep functioning in the face of adversity.
 
 Resilient architectures leverage **system design patterns** such as **graceful degradation**, **quotas**, **timeouts** and **circuit breakers**. 
 
-## Quotas - hit limiters
+## Quotas - Rate limiters
 
 assign a specific quota for each component - by way of specifying requests per unit time
 
