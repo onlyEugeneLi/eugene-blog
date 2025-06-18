@@ -59,6 +59,40 @@ Hardware layers:
 - FTP
 - DNS
 
+---
+
+**🌐 HTTP Status Code Classes**
+
+| Code Class | Meaning                        | Description                                                | Example Codes               |
+|------------|--------------------------------|------------------------------------------------------------|-----------------------------|
+| **1xx**    | Informational Responses        | Request received, continuing process                       | `100 Continue`, `101 Switching Protocols` |
+| **2xx**    | Success                        | The request was successfully received, understood, and accepted | `200 OK`, `201 Created`, `204 No Content` |
+| **3xx**    | Redirection                    | Further action must be taken to complete the request       | `301 Moved Permanently`, `302 Found`, `304 Not Modified` |
+| **4xx**    | Client Error                   | The request contains bad syntax or cannot be fulfilled     | `400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found` |
+| **5xx**    | Server Error                   | The server failed to fulfill an apparently valid request   | `500 Internal Server Error`, `502 Bad Gateway`, `503 Service Unavailable`, `504 Gateway Timeout` |
+
+
+**🌐 Common HTTP Error Codes**
+
+| Status Code | Name                      | Type         | Description                                              |
+|-------------|---------------------------|--------------|----------------------------------------------------------|
+| **400**     | Bad Request               | Client Error | Malformed request (e.g., invalid syntax or missing data) |
+| **401**     | Unauthorized              | Client Error | Authentication required or failed                        |
+| **403**     | Forbidden                 | Client Error | Access is denied even if authenticated                   |
+| **404**     | Not Found                 | Client Error | Requested resource doesn’t exist                         |
+| **405**     | Method Not Allowed        | Client Error | HTTP method (e.g., POST) not supported for resource      |
+| **408**     | Request Timeout           | Client Error | Server timed out waiting for the request                 |
+| **429**     | Too Many Requests         | Client Error | Rate limiting — too many requests in short time          |
+| **500**     | Internal Server Error     | Server Error | Generic server error — something went wrong              |
+| **501**     | Not Implemented           | Server Error | Server doesn’t support the requested functionality       |
+| **502**     | Bad Gateway               | Server Error | Invalid response from upstream server                    |
+| **503**     | Service Unavailable       | Server Error | Server temporarily overloaded or down for maintenance    |
+| **504**     | Gateway Timeout           | Server Error | Timeout waiting for response from upstream server        |
+
+---
+
+### ✅ Interview Tip
+> "4xx errors mean something is wrong with the request (client-side). 5xx errors mean the server is failing to process a valid request."
 
 
 ### In which OSI layer is the header and trailer added?
