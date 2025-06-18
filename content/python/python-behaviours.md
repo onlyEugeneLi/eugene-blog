@@ -717,3 +717,11 @@ for k, v in od.items():
 * **`.item()`**: group key-value pairs in Dict into a list tuples
 * **`.pop(key)`**: removes the item with the specified key name
 * **`.popitem(key)`**: removes the last inserted item 
+
+### collections.defaultdict(data_type or lambda: default_value)
+
+```python
+from collections import defaultdict
+
+d = defaultdict(list)
+```
