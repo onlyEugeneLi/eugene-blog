@@ -364,3 +364,6 @@ function involves the following:
 - Min waiting time [Time a process waits in ready queue]
 - Min response time [Time when a process produces the first response]
 
+## Inode in Linux
+
+an inode (index node) is a data structure that stores metadata about files and directories, essentially acting as a unique identifier for each file-system object.
