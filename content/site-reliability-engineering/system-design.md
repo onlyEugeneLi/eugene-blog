@@ -182,7 +182,7 @@ DB reads can be scaled up similarly by using **read replicas** as we had seen in
 
 ## Caching
 
-# Resiliency
+# Resilience
 
 A resilient system is one that can keep functioning in the face of adversity.
 
