@@ -148,7 +148,16 @@ An evaluation to induce chaos in a Kubernetes environment terminated random pods
 - **service level indicator(SLI)**: a carefully defined quantitative measure of some aspect of the level of service that is provided.
 - **Service level objective (SLO)**: a **target** value or range of values for a service level that is measured by an **SLI**. 
 
+### Core components of SRE
 
+
+
+### Golden signals of SRE
+
+- Latency
+- Traffic
+- Errors
+- Saturation
 
 # Scaling
 
