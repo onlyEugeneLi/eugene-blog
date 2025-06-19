@@ -170,8 +170,13 @@ print(res)
 ```python
 diff = ord('B') - ord('A')
 print(diff)
+
+# Console output: 1
 ```
-> \> 1
+
+## `chr()`
+
+converts an integer value
 
 ## `bisect()`
 
