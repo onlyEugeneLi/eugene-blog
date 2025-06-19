@@ -225,3 +225,92 @@ A self-healing system adds more instances in this scenario to replace the failed
 
 
 full, differential, and incremental
+
+## 🚀 Deployment Strategies: Blue/Green vs. Canary
+
+Modern deployment strategies aim to minimize downtime and risk when releasing new versions of applications.
+
+---
+
+### 🔵🟢 Blue/Green Deployment
+
+**Definition**:  
+You maintain **two identical environments**:  
+- **Blue** = current live (production)
+- **Green** = new version (staging)
+
+**How it works**:
+1. Deploy new version to Green.
+2. Run tests and validation on Green.
+3. **Switch traffic** from Blue to Green instantly (e.g., via load balancer).
+4. If something goes wrong, rollback is quick — just point back to Blue.
+
+**Diagram**:
+```
+Users --> [Load Balancer] --> [Blue or Green Environment]
+```
+
+**Pros**:
+- Instant rollback
+- Simple to understand and operate
+- Zero-downtime deployments
+
+**Cons**:
+- Doubles infrastructure cost temporarily
+- Requires full parallel environments
+
+**Use Cases**:
+- High-traffic apps where downtime is unacceptable
+- Deployments with short cut-over windows
+
+---
+
+### 🐦 Canary Deployment
+
+**Definition**:  
+Release the new version to a **small percentage of users** first. Gradually increase exposure based on success.
+
+**How it works**:
+1. Deploy new version alongside current version.
+2. Route a small % of traffic to new version.
+3. Monitor metrics (errors, latency, etc.).
+4. Gradually increase traffic to new version if stable.
+
+**Diagram**:
+```
+Users --> [Load Balancer] --> [v1 (90%) + v2 (10%)] --> Increase gradually
+```
+
+**Pros**:
+- Safer for detecting bugs early
+- Fine-grained traffic control
+- Real user feedback without full exposure
+
+**Cons**:
+- More complex to implement (requires traffic routing logic)
+- Slower rollout process
+- Rollback is harder than Blue/Green
+
+**Use Cases**:
+- Continuous delivery pipelines
+- User-facing apps with performance sensitivity
+- A/B testing features
+
+---
+
+### ✅ Summary Table
+
+| Feature            | Blue/Green               | Canary                         |
+|--------------------|--------------------------|--------------------------------|
+| Rollout Speed      | Instant switch            | Gradual (controlled)           |
+| Risk Level         | Medium                    | Low                            |
+| Rollback Simplicity| Very simple               | Requires traffic shifting back |
+| Cost               | Higher (duplicate infra)  | Lower                          |
+| Monitoring Need    | Minimal                   | High (real-time metrics)       |
+
+---
+
+### 🛠️ Bonus Tip
+
+> In Kubernetes, tools like **Argo Rollouts**, **Flagger**, or **Istio** can automate canary and blue/green deployments using `Deployment` or `Service` routing logic.
+
