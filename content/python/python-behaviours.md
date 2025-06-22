@@ -330,6 +330,24 @@ Notes
 
 * **Alignment** specifiers (`:<`, `:>`, `:^`, `:=`) work with a width value (e.g., `f"{x:<10}"`)
 
+### Slicing
+
+The slice of s from i to j is defined as the sequence of items with index k such that i <= k < j. If i or j is greater than len(s), use len(s). If i is omitted or None, use 0. If j is omitted or None, use len(s). <span style='color:red'>**If i is greater than or equal to j, the slice is empty.**</span>
+
+> <span style='color:orange'>No 'out-of-bound' issue for slicing</span>
+
+```python
+
+>>> s = 'abc'
+>>> s[3:]
+>>> ''
+>>> s[4:]
+>>> ''
+>>> s[2:]
+>>> 'c'
+
+```
+
 ---
 
 # 📚 Permutations and Combinations
