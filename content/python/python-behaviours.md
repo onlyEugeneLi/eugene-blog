@@ -748,3 +748,11 @@ from collections import defaultdict
 
 d = defaultdict(list)
 ```
+
+
+### Query Time Complexity: List vs. Dict
+
+| Data Structure | Example                                  | Search Time Complexity |
+| -------------- | ---------------------------------------- | ---------------------- |
+| **List**       | `["A", "B", "C"]`<br>`if "B" in my_list` |  O(n)                 |
+| **Set / Dict** | `{"A", "B", "C"}`<br>`if "B" in my_set`  |  O(1) average         |
