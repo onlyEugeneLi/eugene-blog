@@ -350,6 +350,18 @@ The slice of s from i to j is defined as the sequence of items with index k such
 
 ---
 
+# Dictionary
+
+## `get()`
+
+get() method takes maximum of two parameters:
+
+**key** - key to be searched in the dictionary
+**value** (optional) - Value to be returned if the key is not found. The default value is None.
+
+Time complexity O(1)
+
+
 # 📚 Permutations and Combinations
 
 ## 🔄 Iterables - `itertools` Library
