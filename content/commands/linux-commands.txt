@@ -31,7 +31,7 @@
 	hostname -I
 
 #############################################################
-###                      File Editing                     ###
+###                    File Management                    ###
 #############################################################
 
 => Remove first line of a file
@@ -48,7 +48,19 @@
 => Remove directory
 	[Remove direcotry and content] rm -rv <directory>
 	[Remove empty directory] rmdir <directory>
-		
+
+=> Find text in current directory files and all files in subdirectory
+	-------------------------
+	 grep -i -r "target_text" 
+	-------------------------
+
+=> Find folder or directory containing certain text
+	---------------------------------
+	 find | grep -i -r "target_text" 
+	---------------------------------
+
+	find: prints all direcotries and subdirectories
+
 #############################################################
 ###                     SSH & Firewall                    ###
 #############################################################
