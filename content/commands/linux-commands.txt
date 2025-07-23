@@ -159,8 +159,11 @@
 	git branch -r
 
 => git fetch: Downloads commits, files and refs from a remote repository into local repo
-	git fetch <remote> (normally origin) <branch-name>
-	git fetch --all
+	--------------------------------------------------------------------
+	 git fetch <remote> (normally origin) <branch-name>
+	 git fetch origin <branch-name>:<branch-name>
+	 git fetch --all
+	--------------------------------------------------------------------
 
 => git pull: Fetch and download content from a remote repo and immediately update the local repo to match that content
 	git checkout <branch-name> /* Go to local branch needed to merge first */
@@ -169,6 +172,18 @@
 
 => Remove directory and all its content
 	git rm -rv <directory>
+
+
+#############################################################
+###                           VS Code                         ###
+#############################################################
+
+
+=> Jump to a specific line
+	--------------------------------
+	 Ctrl + G
+	--------------------------------
+
 
 #############################################################
 ###                 Scheduling job                        ###
