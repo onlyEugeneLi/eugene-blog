@@ -297,8 +297,14 @@
 	-----------------
 
 => Network connection: Shows all listening TCP and UDP connections
+   Also shows route table
 	-----------------
 	 netstat -tuln
+	-----------------
+
+=> Route table
+	-----------------
+	 route -n
 	-----------------
 
 => Download files from web

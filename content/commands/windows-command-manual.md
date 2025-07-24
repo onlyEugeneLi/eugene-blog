@@ -10,3 +10,9 @@
 
 `dir `
 
+### Show route table
+
+```shell
+route print
+```
+
