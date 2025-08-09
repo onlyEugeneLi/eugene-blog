@@ -2,33 +2,56 @@
 ###                       Networking                      ###
 #############################################################
 
+=> MacOS check DNS resolver
+	-----------------------------------------------------
+	 scutil --dns
+	-----------------------------------------------------
+
 => MacOS check IP address assigned by router
-	ifconfig -a | grep broadcast (Dsiplayed in en0)
+	-----------------------------------------------------
+	 ifconfig -a | grep broadcast (Dsiplayed in en0)
+	-----------------------------------------------------
 
 => MacOS check IP address assigned by ISP outside LAN
-	curl ifconfig.me
+	-----------------------------------------------------
+	 curl ifconfig.me
+	-----------------------------------------------------
 
-=> IPv4 Network Gateway (Router console): 
-	route -n | grep 'UG[ \t]' | awk '{print }'
+=> IPv4 Network Gateway (Router console):
+	-----------------------------------------------------
+	 route -n | grep 'UG[ \t]' | awk '{print }'
+	-----------------------------------------------------
 
 => Append text to file: 
-	cat file >> copy_file; 
+	-----------------------------------------------------
+	 cat file >> copy_file; 
+	-----------------------------------------------------
 
 => Check nginx status and logs: 
-	systemctl status nginx
+	-----------------------------------------------------
+	 systemctl status nginx
+	-----------------------------------------------------
 
 => Check all processes: 
-	sudo netstat -tulpn
+	-----------------------------------------------------
+	 sudo netstat -tulpn
+	-----------------------------------------------------
 
 => Kill process: 
-	sudo kill -2 <PID>
+	-----------------------------------------------------
+	 sudo kill -2 <PID>
+	-----------------------------------------------------
 
 => Activate Clipboard: 
-	sudo VBoxClient --clipboard 
+	-----------------------------------------------------
+	 sudo VBoxClient --clipboard 
+	-----------------------------------------------------
 [reference](https://superuser.com/a/1367954/2747755)
 
 => See local Private IP: 
-	hostname -I
+	-----------------------------------------------------
+	 hostname -I
+	-----------------------------------------------------
 
 => List all services from systemctl
 	---------------------------------------------
