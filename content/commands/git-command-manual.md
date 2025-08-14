@@ -1,5 +1,15 @@
 # Common git commands
 
+## Delete a local branch
+
+```bash
+# Delete branch locally
+git branch --delete <local-branch-name>
+
+# Delete branch both remote and local branch
+git push origin --delete <remote-branch-name>
+```
+
 ## `git push`
 
 Push commits to remote repository
@@ -16,13 +26,23 @@ Unstage files / Undo `git add`
 git restore --staged {file_name}
 ```
 
-## `git reset`
+## Undo the last commit -- `git reset`
 
 Discard commits in a **private** branch or throw away uncommitted changes
 
-Revert local merge from remote
+Undo the last commit and **remove the changes**
 ```
 git reset --hard HEAD~1
+```
+
+Undo the last 2 commit and **remove the changes**
+```
+git reset --hard HEAD~2
+```
+
+Roll back to multiple / certain commit and **remove the changes**
+```
+git reset --hard <commit-id>
 ```
 
 Only reset a specific file
@@ -54,8 +74,29 @@ git rm -rv <directory>
 ## `git fetch`
 
 Fetch commits from remote repo
-```
+```bash
+# Check update for a specific branch
 git fetch origin /*location*/ main /*branch name*/
+
+# Check update from all branches
+git fetch origin
+```
+
+## Fetch a remote branch and move to the branch
+
+New method:
+```bash
+git fetch origin remote-branch-name
+git switch remote-branch-name
+```
+
+Old method:
+```bash
+# Shorthand version
+git checkout --track origin/remote-branch-name
+
+# The full length version
+git check -b name-the-local-branch origin/remote-branch-name
 ```
 
 ## `git merge`
