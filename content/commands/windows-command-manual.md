@@ -15,4 +15,8 @@
 ```shell
 route print
 ```
+### Shortcut to Add emoji in VS code
 
+```
+WIN + ;
+```
