@@ -139,5 +139,48 @@ ${random_pet.my-pet.id}
 
 ### Resource Dependencies
 
+> Ensures resources are created in the correct order (after other resources are created)
+
+```terraform
+resource "aws_instance" "app_server" {
+    ami           = "ami-0c55b159cbfafe1f0"
+    instance_type = "t2.micro"
+
+    tags = {
+        Name = "${var.app_region}-AppServerInstance"
+    }
+
+    depends_on = [ aws_dynamodb_table.payroll_db,
+                   aws_s3_bucket.payroll_data ]
+}
+```
 
 ### Output variables
+
+## Terraform Modules
+
+### What are modules?
+
+Why use modules?
+
+All resource blocks in a single configuration file:
+- Complex configuration files
+- Duplicate code
+- Increase Risk
+- Limits reuseability
+
+**Module**: A set of configuration files (`main.tf`, `variables.tf`, ...) in a folder
+
+Development module
+
+```
+module "module-name" {
+    source = "../path-to-module"
+}
+```
+
+## Functions and Condition Expressions
+
+### Condition Expressions
+
+` condition ? true_val : false_val`
