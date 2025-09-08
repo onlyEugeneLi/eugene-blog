@@ -80,6 +80,26 @@ resource "local_file" "pet" {
 
 Make update to the resources --> making chagnes to the existing arguments in `variables.tf`
 
+---
+
+### `terraform.tfvars` vs `variables.tf`
+
+`variable.tf` are files where all variables are declared; these might or might not have a default value, \
+while `variable.tfvars` are files where the variables are provided/assigned a value.
+
+**`variables.tf`**
+```
+variable "instance_type" {
+    type        = "string"
+    default     = "t2.micro"
+    description = "Defines EC2 instance type"
+```
+
+**`terraform.tfvars`**
+```
+instance_type = "t2.large"
+```
+
 ### Variable block
 
 Three arguments
