@@ -20,7 +20,7 @@ git push origin(remote name) main(branch name)
 
 ## `git restore`
 
-Unstage files / Undo `git add`
+**Unstage** files / Undo `git add`
 
 ```
 git restore --staged {file_name}
