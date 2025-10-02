@@ -18,3 +18,28 @@ In Linux, user management commands allow you to create, modify, and manage user 
 ---
 
 💡 Tip: Always use `sudo` if modifying users outside your own account.
+
+## Certificates
+
+Extract public key from certificate
+
+```bash
+openssl x509 -pubkey -noout -in cert-file.pem > pubkey.txt
+```
+
+Extract keypair from pkcs12 `.pfx` file
+```bash
+# Extract the key-pair
+openssl pkcs12 -in sample.pfx -nocerts -nodes -out sample.key
+
+#Get the Private Key from the key-pair
+openssl rsa -in sample.key -out sample_private.key
+
+# Get the Public Key from key pair
+openssl rsa -in sample.key -pubout -out sample_public.key
+
+# Need to do some modification to the private key -> to pkcs8 format
+openssl pkcs8 -topk8 -inform PEM -in sample_private.key -outform PEM -nocrypt
+# Copy the output and save it as sample_private_pkcs8.key
+
+```

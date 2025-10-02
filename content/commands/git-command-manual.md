@@ -18,51 +18,6 @@ Push commits to remote repository
 git push origin(remote name) main(branch name)
 ```
 
-## `git restore`
-
-**Unstage** files / Undo `git add`
-
-```
-git restore --staged {file_name}
-```
-
-## Undo the last commit -- `git reset`
-
-Discard commits in a **private** branch or throw away uncommitted changes
-
-Undo the last commit and **remove the changes**
-```
-git reset --hard HEAD~1
-```
-
-Undo the last 2 commit and **remove the changes**
-```
-git reset --hard HEAD~2
-```
-
-Roll back to multiple / certain commit and **remove the changes**
-```
-git reset --hard <commit-id>
-```
-
-Only reset a specific file
-```
-git reset HEAD~2 foo.py
-```
-
-Flags: 
-
-- `--soft` – The staged snapshot and working directory are not altered in any way.
-- `--mixed` – The staged snapshot is updated to match the specified commit, but the working directory is not affected. This is the default option.
-- `--hard` – The staged snapshot and the working directory are both updated to match the specified commit.
-
-## `git revert`
-
-**Undo** commits in a **public** branch
-
-```
-git checkout hotfix git revert HEAD~2
-```
 
 ## `git rm`
 
@@ -105,3 +60,57 @@ Merge remote commits to local main branch
 ```
 git merge --no-ff origin/main
 ```
+
+# Compare approaches to remove past code changes 
+
+## `git restore`
+
+**Unstage** files / Undo `git add`
+
+```
+git restore --staged {file_name}
+```
+
+## `git revert`
+
+It creates a <u>new commit</u> to track the action of removing past commits, so the removal is tracked by git.
+
+**Undo** commits in a **public** branch
+
+```
+git checkout hotfix 
+git revert HEAD~2
+git revert <commit-id>
+```
+
+## Undo the last commit -- `git reset`
+
+Discard commits in a **private** branch or throw away uncommitted changes
+
+And <u>no commit</u> will be created to record the removal step. 
+
+Undo the last commit and **remove the changes**
+```
+git reset --hard HEAD~1
+```
+
+Undo the last 2 commit and **remove the changes**
+```
+git reset --hard HEAD~2
+```
+
+Roll back to multiple / certain commit and **remove the changes**
+```
+git reset --hard <commit-id>
+```
+
+Only reset a specific file
+```
+git reset HEAD~2 foo.py
+```
+
+Flags: 
+
+- `--soft` – The staged snapshot and working directory are not altered in any way.
+- `--mixed` – The staged snapshot is updated to match the specified commit, but the working directory is not affected. This is the default option.
+- `--hard` – The staged snapshot and the working directory are both updated to match the specified commit.
