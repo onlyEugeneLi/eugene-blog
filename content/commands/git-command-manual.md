@@ -1,5 +1,21 @@
 # Common git commands
 
+## Initialisation
+
+```bash
+git init
+git add remote origin <remote-repo-URL>
+git pull
+git checkout main -f
+git branch --set-upstream-to origin/main
+```
+
+or 
+
+```bash
+git clone <remote-repo-URL>
+```
+
 ## Delete a local branch
 
 ```bash
