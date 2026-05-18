@@ -354,7 +354,7 @@ The slice of s from i to j is defined as the sequence of items with index k such
 
 ## `get()`
 
-get() method takes maximum of two parameters:
+returns value(s) of the specified key
 
 **key** - key to be searched in the dictionary
 **value** (optional) - Value to be returned if the key is not found. The default value is None.
