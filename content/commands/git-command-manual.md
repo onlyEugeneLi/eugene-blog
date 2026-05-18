@@ -101,7 +101,7 @@ git revert <commit-id>
 
 ## Undo the last commit -- `git reset`
 
-Discard commits in a **private** branch or throw away uncommitted changes
+Discard commits in a **private** branch or throw away uncommitted changes in tracked files 
 
 And <u>no commit</u> will be created to record the removal step. 
 
@@ -130,3 +130,8 @@ Flags:
 - `--soft` – The staged snapshot and working directory are not altered in any way.
 - `--mixed` – The staged snapshot is updated to match the specified commit, but the working directory is not affected. This is the default option.
 - `--hard` – The staged snapshot and the working directory are both updated to match the specified commit.
+
+
+## Remove untracked files -- `git clean -fd`
+
+This command removes untracked files -- newly added files with green "`A`" symbol attached in the VS code EXPLORER window.
