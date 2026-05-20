@@ -140,3 +140,154 @@ kubectl config use-context <context-name>     # Switch context (e.g. between clu
 
 > **Study Tip:** The flow for most tasks goes:  
 > `explain` → `dry-run -o yaml` → edit YAML → `apply` → `get` → `describe` → `logs` → `exec`
+
+# kubectl CKA Cheat Sheet — ReplicaSet, Deployment, Service, Namespace
+
+---
+
+## ReplicaSet
+```bash
+# Inspect
+kubectl get rs                                # List all replicasets
+kubectl get rs -o wide                        # Include selector and container info
+kubectl describe rs <rs-name>                 # Full detail: desired/ready/available counts + events
+
+# Create
+kubectl apply -f replicaset.yaml              # Create from manifest (preferred)
+kubectl create -f replicaset.yaml             # Create only (fails if exists)
+
+# Scaling
+kubectl scale rs <rs-name> --replicas=5       # Scale up/down directly
+kubectl edit rs <rs-name>                     # Edit replicas or image in-place
+
+# Delete
+kubectl delete rs <rs-name>                   # Deletes RS and its pods
+kubectl delete rs <rs-name> --cascade=orphan  # Delete RS but keep pods running
+```
+
+> **Note:** ReplicaSets are rarely managed directly — Deployments own them. Useful to know for CKA troubleshooting.
+
+---
+
+## Deployment
+```bash
+# Create
+kubectl create deployment <name> --image=nginx                        # Imperative create
+kubectl create deployment <name> --image=nginx --replicas=3           # With replica count
+kubectl create deployment <name> --image=nginx --dry-run=client -o yaml  # Scaffold YAML
+kubectl apply -f deployment.yaml                                      # Declarative create/update
+
+# Inspect
+kubectl get deployments                       # List deployments
+kubectl get deploy -o wide                    # Include image, selector, availability
+kubectl describe deployment <name>            # Full detail: strategy, replicas, events
+kubectl get rs                                # See the replicasets a deployment manages
+
+# Scaling
+kubectl scale deployment <name> --replicas=5  # Scale pods
+kubectl autoscale deployment <name> --min=2 --max=10 --cpu-percent=80  # HPA
+
+# Rollout & Updates
+kubectl set image deployment/<name> nginx=nginx:1.25         # Update container image
+kubectl rollout status deployment/<name>                     # Watch rollout progress
+kubectl rollout history deployment/<name>                    # View revision history
+kubectl rollout history deployment/<name> --revision=2       # Inspect a specific revision
+kubectl rollout undo deployment/<name>                       # Roll back to previous version
+kubectl rollout undo deployment/<name> --to-revision=2       # Roll back to specific revision
+kubectl rollout pause deployment/<name>                      # Pause rollout mid-way
+kubectl rollout resume deployment/<name>                     # Resume paused rollout
+kubectl rollout restart deployment/<name>                    # Force rolling restart (e.g. to pick up new secret)
+
+# Edit & Patch
+kubectl edit deployment <name>                               # Live edit in $EDITOR
+kubectl patch deployment <name> -p '{"spec":{"replicas":3}}' # Inline patch
+
+# Delete
+kubectl delete deployment <name>              # Deletes deployment, RS, and pods
+kubectl delete -f deployment.yaml
+```
+
+> **Tip:** `rollout undo` is a critical CKA command — know it cold.
+
+---
+
+## Service
+```bash
+# Create
+kubectl expose pod <pod-name> --port=80 --target-port=8080            # Expose a pod
+kubectl expose deployment <name> --port=80 --target-port=8080         # Expose a deployment
+kubectl expose deployment <name> --type=NodePort --port=80            # NodePort (accessible outside cluster)
+kubectl expose deployment <name> --type=LoadBalancer --port=80        # LoadBalancer (cloud only)
+kubectl create service clusterip <name> --tcp=80:8080                 # ClusterIP via imperative
+kubectl apply -f service.yaml                                         # From manifest
+
+# Inspect
+kubectl get svc                               # List services
+kubectl get svc -o wide                       # Include selector and endpoints
+kubectl describe svc <name>                   # Detail: endpoints, ports, selector
+kubectl get endpoints <name>                  # Check which pod IPs the service routes to
+
+# Dry Run / Scaffold
+kubectl expose deployment <name> --port=80 --dry-run=client -o yaml   # Generate service YAML
+
+# Delete
+kubectl delete svc <name>
+kubectl delete -f service.yaml
+```
+
+> **Service types to know for CKA:**  
+> `ClusterIP` (default, internal only) → `NodePort` (static port on each node) → `LoadBalancer` (cloud LB) → `ExternalName` (DNS alias)
+
+---
+
+## Namespace
+```bash
+# Create
+kubectl create namespace <name>               # Imperative
+kubectl apply -f namespace.yaml               # From manifest
+
+# Inspect
+kubectl get namespaces                        # List all namespaces (alias: ns)
+kubectl get ns
+kubectl describe ns <name>                    # Detail: resource quotas, limits, status
+
+# Working within a namespace
+kubectl get pods -n <name>                    # List pods in a specific namespace
+kubectl get all -n <name>                     # All resources in a namespace
+kubectl get pods --all-namespaces             # Pods across every namespace
+kubectl get pods -A                           # Same, shorthand
+
+# Switch default namespace (so you don't type -n every time)
+kubectl config set-context --current --namespace=<name>
+
+# Apply a manifest into a namespace
+kubectl apply -f pod.yaml -n <name>
+kubectl run nginx --image=nginx -n <name>
+
+# Delete
+kubectl delete ns <name>                      # WARNING: deletes all resources inside it
+```
+
+> **CKA Tip:** Always check which namespace you're in before running commands. Many exam questions use non-default namespaces intentionally.
+
+---
+
+## Quick Reference — Resource Aliases
+
+| Resource    | Short Alias |
+|-------------|-------------|
+| pods        | `po`        |
+| replicasets | `rs`        |
+| deployments | `deploy`    |
+| services    | `svc`       |
+| namespaces  | `ns`        |
+| nodes       | `no`        |
+| configmaps  | `cm`        |
+| persistentvolumeclaims | `pvc` |
+
+```bash
+# Examples using aliases
+kubectl get po -A
+kubectl get deploy -n kube-system
+kubectl get svc -o wide
+```
