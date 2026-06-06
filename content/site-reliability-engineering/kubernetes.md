@@ -1,5 +1,8 @@
 # kubectl Pod Commands — Study Notes
 
+> Reading:
+> - [Kubernetes Ingress with AWS ALB Ingress Controller](https://aws.amazon.com/blogs/opensource/kubernetes-ingress-aws-alb-ingress-controller/)
+
 ## Cluster & Resource Discovery
 ```bash
 kubectl cluster-info                          # Show cluster endpoint info
