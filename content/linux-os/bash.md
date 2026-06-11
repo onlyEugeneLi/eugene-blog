@@ -100,3 +100,56 @@
 | Format | Meaning |
 |---|---|
 | `-rw-r--r--` | First char: file type; next 3: owner; next 3: group; last 3: others |
+
+---
+
+## 🔢 Sort and group
+
+### Grouping Lines by Value
+
+| Command / Pipeline | Description |
+|---|---|
+| `sort input.txt` | Group identical lines together sequentially |
+| `sort input.txt \| uniq -c` | Group lines and show the occurrence count for each |
+| `sort input.txt \| uniq -c \| sort -nr` | Group lines and list by highest frequency first |
+| `sort input.txt \| uniq -c \| sort -n` | Group lines and list by lowest frequency first |
+| `sort input.txt \| uniq -d` | Group lines and output **only** the duplicates |
+| `sort input.txt \| uniq -u` | Group lines and output **only** the completely unique lines |
+| `sort -f input.txt \| uniq -i -c` | Group lines case-insensitively (e.g., treating 'A' and 'a' as same) |
+| `sort -k 2,2 input.txt` | Group lines based strictly on the values in column 2 |
+| `sort -t ',' -k 3,3 input.csv` | Group by column 3 using a custom delimiter (comma) |
+
+---
+
+### Sorting Output Lines by Date
+
+| Command / Pipeline | Date Format Targeted | Description |
+|---|---|---|
+| `sort input.txt` | `YYYY-MM-DD` (ISO 8601) | Chronological sort (oldest to newest) |
+| `sort -r input.txt` | `YYYY-MM-DD` (ISO 8601) | Reverse chronological sort (newest to oldest) |
+| `sort -M input.txt` | `Jan`, `Feb`, `Mar` | Sorts alphabetically by 3-letter locale month names |
+| `sort -k 1M -k 2n input.txt` | `Month DD` (e.g., Oct 29) | Sorts by month column first, then numerically by day |
+| `sort -k 1M -k 2n -k 3 input.txt` | `Month DD HH:MM:SS` | Standard syslog format sorting down to the second |
+| `sort -t '/' -k 3,3n -k 2,2n -k 1,1n input.txt` | `DD/MM/YYYY` | Extracts and sorts by year, then month, then day |
+| `sort -t '/' -k 3,3n -k 1,1n -k 2,2n input.txt` | `MM/DD/YYYY` | Extracts and sorts by US year, then month, then day |
+| `sort -n input.txt` | `1718049900` (Unix Epoch) | Sorts timestamps chronologically via raw seconds |
+| `sort -k 4M -k 5n input.txt` | Mixed Data Columns | Targets the date when it is hidden in columns 4 and 5 |
+
+> * -t '/': Specifies the delimiter and breaks the line into columns using / as the separator.
+> * -k 3,3n: Sorts numerically (n) on the 3rd column (Year).
+> * -k 2,2n: Breaks ties using the 2nd column (Month).
+> * -k 1,1n: Breaks ties using the 1st column (Day).
+
+
+## 🔍 uniq - Remove or report duplicate lines
+| Command | Description |
+|---|---|
+| `uniq filename` | Display file with duplicate consecutive lines removed |
+| `uniq -c filename` | Count occurrences of each line (prefix count to each line) |
+| `uniq -d filename` | Show only lines that appear more than once (duplicates) |
+| `uniq -u filename` | Show only unique lines (lines that appear only once) |
+| `uniq -i filename` | Case-insensitive comparison |
+| `uniq -f N filename` | Skip first N fields when comparing lines |
+| `uniq -s N filename` | Skip first N characters when comparing lines |
+
+**Note:** uniq works on consecutive duplicate lines. Use `sort filename | uniq` to remove all duplicates in a file.
