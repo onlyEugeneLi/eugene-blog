@@ -105,6 +105,8 @@
 
 ## 🔢 Sort and group
 
+> `sort` only sorts the output, not modifying the file itself.
+
 ### Grouping Lines by Value
 
 | Command / Pipeline | Description |
