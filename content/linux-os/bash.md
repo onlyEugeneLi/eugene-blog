@@ -60,6 +60,27 @@
 
 ---
 
+## 🔀 `diff` - Compare files
+
+| Command | Description |
+|---|---|
+| `diff file1 file2` | Compare two files and show differences |
+| `diff <(echo '$var1') <(echo '$var2')` | Compare the output of two commands (process substitution) |
+| `diff -u file1 file2` | Unified diff format (shows context around changes) |
+| `diff -y file1 file2` | Side-by-side comparison of files |
+| `diff -c file1 file2` | Context format (shows lines before and after changes) |
+| `diff -q file1 file2` | Only report if files differ (quiet mode) |
+| `diff -r dir1 dir2` | Compare directories recursively |
+| `diff -i file1 file2` | Case-insensitive comparison |
+| `diff -b file1 file2` | Ignore changes in whitespace |
+| `diff -w file1 file2` | Ignore all whitespace |
+| `diff -B file1 file2` | Ignore blank lines |
+| `diff --suppress-common-lines -y file1 file2` | Side-by-side, show only differing lines |
+
+💡 **Tip:** Use `diff file1 file2 > output.patch` to save differences as a patch file.
+
+---
+
 ## 🔐 File Permissions
 
 ### chmod - Change file/directory permissions
