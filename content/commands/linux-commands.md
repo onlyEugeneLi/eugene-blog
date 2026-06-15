@@ -27,6 +27,12 @@ Extract public key from certificate
 openssl x509 -pubkey -noout -in cert-file.pem > pubkey.txt
 ```
 
+Display certificate information
+
+```bash
+openssl x509 -in cert-file.pem -text -noout
+```
+
 Extract keypair from pkcs12 `.pfx` file
 ```bash
 # Extract the key-pair
