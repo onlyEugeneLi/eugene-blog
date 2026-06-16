@@ -371,7 +371,75 @@ def fibonacci(n):
 
 ---
 
-## 🚨 Exception Handling (try-except)
+## 📊 Data Structures: Time/Space Complexity
+
+**Mental model:** Choose your data structure based on how you need to *access, search, or modify* your data.
+
+### Core Data Structures Comparison
+
+| Structure | Access | Search | Insert/Delete | Space | Key Use Case | Hashable? |
+|---|---|---|---|---|---|---|
+| `list` | O(1) by index | O(n) by value | O(1) append / O(n) insert | Low | Ordered sequence, preserves order | ❌ No |
+| `dict` | O(1) by key | O(1) average | O(1) average | High | Key-value lookup, fast exact match | ❌ No |
+| `set` | N/A | O(1) average | O(1) average | High | Uniqueness, membership, deduplication | ❌ No |
+| `tuple` | O(1) by index | O(n) by value | N/A (immutable) | Lowest | Fixed records, hashable composite keys | ✅ Yes |
+
+### When to Use Each
+
+| Use Case | Data Structure | Why | Example |
+|---|---|---|---|
+| **Sequential processing** | `list` | Order matters, mutable | Log lines processed sequentially |
+| **Fast exact lookups** | `dict` | O(1) key → value mapping | Node IP → health status metadata |
+| **Deduplication + math** | `set` | Instant uniqueness + operations (union, diff) | Deduplicate target hostnames before probing |
+| **Immutable composite key** | `tuple` | Can be dict key or set element | IP-port pair: `("10.0.0.1", 5433)` |
+
+### Interview Answer Template
+
+**Question:** "When would you use a list vs. a set vs. a dict?"
+
+**Structure your answer:**
+1. **Frame by access pattern:** "I choose based on lookup patterns. Lists are O(n) for value search—sets and dicts are O(1) using hash tables."
+2. **Trade-off:** "But dicts/sets use more memory for hash table overhead. For massive static data, tuples/lists are more memory-efficient."
+3. **Production context:** "In infrastructure validation, I ingest config lines into a list (order matters), convert keys to a set for O(1) validation checks, then output a dict for consumers."
+
+### collections Library: Extended Data Structures
+
+From `from collections import ...`:
+
+| Type | Purpose | Example |
+|---|---|---|
+| `defaultdict` | Dict with default value for missing keys | `d = defaultdict(list); d['key'].append(item)` |
+| `Counter` | Count occurrences of elements | `Counter(['a','b','a']) → Counter({'a': 2, 'b': 1})` |
+| `deque` | Double-ended queue, O(1) on both ends | `from collections import deque; d = deque([1,2,3]); d.appendleft(0)` |
+| `namedtuple` | Immutable tuple with named fields | `Point = namedtuple('Point', ['x', 'y']); p = Point(10, 20)` |
+| `OrderedDict` | Dict that remembers insertion order (Python 3.7+ dicts do this by default) | Legacy; use regular dict in modern Python |
+
+**Quick collections examples:**
+```python
+from collections import defaultdict, Counter, deque, namedtuple
+
+# defaultdict — no KeyError on missing keys
+config = defaultdict(list)
+config['servers'].append('10.0.0.1')
+
+# Counter — frequency analysis
+errors = Counter(['timeout', 'timeout', 'auth_failed'])
+print(errors.most_common(1))  # [('timeout', 2)]
+
+# deque — efficient pop from both ends
+queue = deque([1, 2, 3])
+queue.appendleft(0)  # O(1) left append
+queue.pop()          # O(1) right pop
+
+# namedtuple — immutable labeled records
+Address = namedtuple('Address', ['ip', 'port'])
+addr = Address('127.0.0.1', 5433)
+print(addr.ip)  # '127.0.0.1'
+```
+
+> **Interview tip:** "I use defaultdict when I need dict behavior without KeyError, Counter for frequency problems, and namedtuple for immutable structured data that might be dict keys or set elements."
+
+---
 
 ### Basic Structure & Clauses
 
