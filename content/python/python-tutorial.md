@@ -126,6 +126,57 @@ print(args.name, args.age)
 
 > **Interview tip:** Use `sys.argv` for simple scripts; `argparse` for production code. Mention both.
 
+### CLI Flags to Class Constructor (argparse → **kwargs Pattern)
+
+**Production pattern:** Parse terminal flags into a dictionary and unpack with `**` into a class or function.
+
+```python
+import argparse
+from typing import Dict, Any
+
+class ValidationError(Exception):
+    def __init__(self, **kwargs):
+        self.message = kwargs.get("message", "Default error")
+        self.code = kwargs.get("code", "500")
+        super().__init__(self.message)
+
+def parse_cli_to_kwargs() -> Dict[str, Any]:
+    """Converts command-line flags to dictionary."""
+    parser = argparse.ArgumentParser(description="Validation flags")
+    parser.add_argument("--message", type=str, help="Error message")
+    parser.add_argument("--code", type=str, help="Error code")
+    
+    parsed_args = parser.parse_args()
+    return vars(parsed_args)  # Namespace → dict
+
+def main():
+    cli_kwargs = parse_cli_to_kwargs()
+    # Strip None values so class defaults aren't overridden
+    clean_kwargs = {k: v for k, v in cli_kwargs.items() if v is not None}
+    
+    try:
+        raise ValidationError(**clean_kwargs)
+    except ValidationError as e:
+        print(f"Message: {e.message}, Code: {e.code}")
+
+if __name__ == "__main__":
+    main()
+```
+
+**Terminal usage:**
+```bash
+python script.py --message "Invalid input" --code "400"
+# Output: Message: Invalid input, Code: 400
+```
+
+**What happens under the hood:**
+1. Terminal input `--message "value" --code "400"` → `sys.argv` list
+2. `parser.parse_args()` → `Namespace(message='value', code='400')`
+3. `vars()` → `{'message': 'value', 'code': '400'}` (plain dict)
+4. `ValidationError(**clean_kwargs)` → unpacks dict as keyword arguments
+
+> **Interview tip:** Explain the flow: raw strings → argparse Namespace → `vars()` to dict → `**` unpacking to constructor. Always filter out `None` values to preserve class defaults.
+
 ---
 
 ## ⚡ map() & lambda
@@ -161,6 +212,447 @@ result = list(map(lambda x: x*2, map(int, ['1', '2'])))  # [2, 4]
 ```
 
 > **Interview tip:** Prefer list comprehension over `map()` + `lambda` for readability; use `map()` when passing named functions.
+
+---
+
+## 🌟 Unpacking: * and **
+
+**Key insight:** `*` and `**` have opposite meanings in function definitions vs function calls.
+
+### In Function Definitions (Packing Arguments)
+
+| Operator | What It Catches | Example | Result |
+|---|---|---|---|
+| `*args` | Extra positional arguments | `def func(*args): print(args)` called with `func(1, 2, 3)` | `args = (1, 2, 3)` tuple |
+| `**kwargs` | Extra keyword arguments | `def func(**kwargs): print(kwargs)` called with `func(a=1, b=2)` | `kwargs = {'a': 1, 'b': 2}` dict |
+
+```python
+def print_info(*args, **kwargs):
+    print(f"Positional: {args}")    # Tuple of all positional args
+    print(f"Keyword: {kwargs}")     # Dict of all keyword args
+
+print_info("IP1", "IP2", host="localhost", port=5433)
+# Output: Positional: ('IP1', 'IP2')
+#         Keyword: {'host': 'localhost', 'port': 5433}
+```
+
+### In Function Calls (Unpacking Collections)
+
+| Operator | What It Unpacks | Example | Result |
+|---|---|---|---|
+| `*iterable` | Spreads list/tuple elements | `print(*[1, 2, 3])` | Arguments become: `print(1, 2, 3)` |
+| `**dict` | Spreads dict as keyword args | `func(**{'a': 1, 'b': 2})` | Arguments become: `func(a=1, b=2)` |
+
+```python
+ips = ["10.0.0.1", "10.0.0.2"]
+print(*ips)  # Unpacks list → print("10.0.0.1", "10.0.0.2")
+# Output: 10.0.0.1 10.0.0.2
+
+config = {"host": "127.0.0.1", "port": 5433}
+connect_to_db(**config)  # Unpacks dict → connect_to_db(host="127.0.0.1", port=5433)
+```
+
+### Quick Reference Table
+
+| Context | `*` | `**` |
+|---|---|---|
+| **Function definition** | Packs positional args → tuple | Packs keyword args → dict |
+| **Function call** | Unpacks iterable → individual args | Unpacks dict → keyword args |
+
+### Advanced: Keyword-Only Arguments (Single `*`)
+
+A standalone `*` in the function signature forces all following parameters to be passed explicitly by name:
+
+```python
+def drop_database(db_name, *, force=False):
+    pass
+
+drop_database("prod", True)         # ❌ TypeError—can't use positional
+drop_database("prod", force=True)   # ✅ Correct—must use keyword
+
+# Prevents accidental unsafe calls in production code
+```
+
+> **Interview tip:** Explain both packing (definition) and unpacking (call) clearly. Bonus: mention keyword-only barrier `*` prevents production bugs.
+
+---
+
+## 🎨 Decorators & Wrappers
+
+### Decorator Syntax & Purpose
+
+| Concept | Purpose | Syntax |
+|---|---|---|
+| **Decorator** | Function that wraps another function to modify behavior | `@decorator` above function def |
+| **Wrapper** | Inner function that executes before/after target function | Nested function inside decorator |
+| **@functools.wraps** | Preserve metadata (name, docstring) of wrapped function | Import and use inside wrapper |
+
+### Basic Decorator Pattern
+```python
+def decorator(func):
+    def wrapper(*args, **kwargs):
+        # Before function execution
+        print(f"Calling {func.__name__}")
+        result = func(*args, **kwargs)
+        # After function execution
+        return result
+    return wrapper
+
+@decorator
+def greet(name):
+    return f"Hello {name}"
+
+# Equivalent to: greet = decorator(greet)
+```
+
+### Common Decorator Use Cases
+
+| Use Case | Example | Purpose |
+|---|---|---|
+| **Logging** | Log when function is called | `@log_calls` |
+| **Timing** | Measure execution time | `@timer` |
+| **Caching** | Cache function results | `@functools.lru_cache(maxsize=128)` |
+| **Type checking** | Validate argument types | `@type_check` |
+| **Authentication** | Verify permissions | `@login_required` |
+
+### Decorator with Arguments
+```python
+def repeat(times):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            result = None
+            for _ in range(times):
+                result = func(*args, **kwargs)
+            return result
+        return wrapper
+    return decorator
+
+@repeat(times=3)
+def greet(name):
+    print(f"Hello {name}")
+
+# Calls greet() 3 times
+```
+
+### Practical Decorator Examples
+
+**Simple timing decorator:**
+```python
+import time
+from functools import wraps
+
+def timer(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start = time.time()
+        result = func(*args, **kwargs)
+        elapsed = time.time() - start
+        print(f"{func.__name__} took {elapsed:.2f}s")
+        return result
+    return wrapper
+
+@timer
+def slow_task():
+    time.sleep(1)
+```
+
+**Caching decorator (built-in):**
+```python
+from functools import lru_cache
+
+@lru_cache(maxsize=128)
+def fibonacci(n):
+    if n < 2:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)
+```
+
+> **Interview tip:** Always use `@functools.wraps` to preserve function metadata. Decorators are commonly tested in interviews—know the pattern!
+
+---
+
+## 🚨 Exception Handling (try-except)
+
+### Basic Structure & Clauses
+
+| Clause | Purpose | Syntax |
+|---|---|---|
+| `try` | Code that might raise exception | `try: risky_code()` |
+| `except` | Catch specific exception(s) | `except ValueError: handle()` |
+| `else` | Execute if no exception occurred | `else: success_code()` |
+| `finally` | Always execute (cleanup) | `finally: cleanup()` |
+
+### Try-Except Examples
+
+**Catch single exception:**
+```python
+try:
+    num = int("abc")
+except ValueError:
+    print("Not a valid number")
+```
+
+**Catch multiple exceptions:**
+```python
+try:
+    data = json.loads(response)
+except (ValueError, TypeError) as e:
+    print(f"Parse error: {e}")
+```
+
+**Catch all exceptions (avoid in production):**
+```python
+try:
+    risky_operation()
+except Exception as e:
+    print(f"Error: {e}")
+```
+
+**Complete try-except-else-finally:**
+```python
+try:
+    file = open('data.txt')
+    data = file.read()
+except FileNotFoundError:
+    print("File not found")
+except IOError as e:
+    print(f"Read error: {e}")
+else:
+    print("Success! Data read.")
+finally:
+    file.close()  # Always executes
+```
+
+### Common Built-in Exceptions
+
+| Exception | Cause | Example |
+|---|---|---|
+| `ValueError` | Invalid value for type | `int("abc")` |
+| `TypeError` | Wrong operand type | `"5" + 5` |
+| `KeyError` | Dictionary key not found | `dict["missing"]` |
+| `IndexError` | List index out of range | `list[999]` |
+| `FileNotFoundError` | File doesn't exist | `open("nonexistent.txt")` |
+| `ZeroDivisionError` | Division by zero | `1 / 0` |
+| `AttributeError` | Object has no attribute | `obj.missing_attr` |
+| `RuntimeError` | Generic runtime error | Raised by user code |
+
+### Raise Custom Exceptions
+```python
+if age < 0:
+    raise ValueError("Age cannot be negative")
+
+try:
+    validate(data)
+except ValueError as e:
+    print(f"Validation failed: {e}")
+```
+
+### logging.error() vs logger.exception() vs raise
+
+These three do different things and are often used **together** in production:
+
+| Method | Logs Message? | Logs Traceback? | Program Continues? | Use When |
+|---|---|---|---|---|
+| `logging.error(f"{e}")` | ✅ Yes | ❌ No | ✅ Yes | Want to record error but keep running |
+| `logging.exception("msg")` | ✅ Yes | ✅ Yes (auto) | ✅ Yes | Need full context + traceback; must be in except block |
+| `raise` | ❌ No | ❌ No | ❌ No (propagates) | Caller needs to know; program stops/passes exception up |
+
+**Production pattern:**
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+try:
+    validate_user(data)
+except ValidationError as e:
+    # DO BOTH: log it AND raise it
+    logger.exception(f"Validation failed -- {e}")  # Logs message + full traceback
+    raise  # Propagates to caller; use bare 'raise' to preserve original traceback
+```
+
+**Why both?**
+- `logger.exception()` — creates a permanent record for debugging
+- `raise` — tells the caller/program that something went wrong and stops execution
+- Use bare `raise` (not `raise ValidationError()`) to preserve the original stack trace
+
+**Other patterns:**
+```python
+# Log and handle locally (program continues)
+except DatabaseError as e:
+    logger.exception("DB failed, retrying...")
+    return None  # or retry logic
+
+# Log, raise to inform caller
+except AuthError as e:
+    logger.exception("Auth failed")
+    raise  # Propagate
+
+# Just raise (no logging needed here if parent catches and logs)
+except IOError as e:
+    raise  # Parent handler will log it
+```
+
+> **Interview tip:** "In production, I log exceptions with full traceback using `logger.exception()` inside the except block, then raise to propagate if it's a critical error. This gives me both a record and proper error handling."
+
+---
+
+> **Interview tip:** Catch specific exceptions, not bare `except:`. Use `finally` for resource cleanup.
+
+---
+
+## 📋 Logging
+
+### Mental Model: Logger → Handler → Formatter
+
+```
+Logger     →  Handler   →  Formatter
+(what)        (where)      (how it looks)
+
+Logger controls minimum level to process (logger.setLevel)
+Handler controls where logs go (file, console, network)
+Formatter controls the string format of each log line
+```
+
+> **Key insight:** Format lives on the handler, not the logger — different destinations might need different formats (e.g., file with timestamps vs console with just the message).
+
+### Log Levels
+
+| Level | Value | Use Case | Example |
+|---|---|---|---|
+| `DEBUG` | 10 | Detailed diagnostic info | `logger.debug("Variable x = 5")` |
+| `INFO` | 20 | General informational | `logger.info("User logged in")` |
+| `WARNING` | 30 | Warning, unexpected behavior | `logger.warning("Low memory")` |
+| `ERROR` | 40 | Error, serious problem | `logger.error("Connection failed")` |
+| `CRITICAL` | 50 | Critical, system might fail | `logger.critical("Database down")` |
+
+### Approach 1: basicConfig (Quick Setup, One Destination)
+
+**Use for:** Scripts, quick tools, prototypes
+
+```python
+import logging
+
+# One-liner setup — configures root logger globally
+logging.basicConfig(
+    filename="dev.log",
+    format='%(asctime)s: %(levelname)s: %(message)s',
+    level=logging.INFO
+)
+
+logger = logging.getLogger()
+logger.info("Application started")
+```
+
+| Aspect | Details |
+|---|---|
+| **Logger** | Root logger (global) |
+| **Destinations** | One (file or console, not both) |
+| **Flexibility** | Low—all-or-nothing setup |
+| **Reusability** | Quick but not suitable for production |
+
+> **Note:** Format attribute is `%(levelname)s`, not `%(level)s`.
+
+### Approach 2: Handlers (Production-Grade, Multiple Destinations)
+
+**Use for:** Production code, libraries, needing multiple handlers
+
+```python
+import logging
+
+# Named logger (not root)—allows scoped control
+logger = logging.getLogger("MyApp")
+logger.setLevel(logging.DEBUG)
+
+# Reusable formatter
+formatter = logging.Formatter('%(asctime)s: %(levelname)s: %(message)s')
+
+# Handler 1: File gets ERROR and above
+file_handler = logging.FileHandler("errors.log")
+file_handler.setLevel(logging.ERROR)
+file_handler.setFormatter(formatter)
+
+# Handler 2: Console gets INFO and above
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_handler.setFormatter(formatter)
+
+# Stack handlers—logs go to both destinations
+logger.addHandler(file_handler)
+logger.addHandler(console_handler)
+
+logger.debug("Debug message")     # Only in file (if DEBUG enabled)
+logger.info("Info message")       # Console + file
+logger.error("Error occurred")    # Console + file
+```
+
+| Aspect | Details |
+|---|---|
+| **Logger** | Named logger (scoped, reusable) |
+| **Destinations** | Many—stack multiple handlers |
+| **Flexibility** | High—each handler has its own level/format |
+| **Production-ready** | Yes |
+
+### Exception Logging: logger.exception()
+
+**Use `logger.exception()` ONLY inside except blocks.** It automatically captures the full stack trace.
+
+```python
+import logging
+
+logger = logging.getLogger(__name__)
+
+try:
+    result = 10 / 0
+except ZeroDivisionError:
+    # Logs error at ERROR level + full traceback automatically
+    logger.exception("Division failed")
+    # Output includes: "Division failed" + full stack trace
+```
+
+**Comparison:**
+
+| Method | Level | Traceback | Use Case |
+|---|---|---|---|
+| `logger.exception()` | ERROR | ✅ Automatic | Inside except block only |
+| `logger.error("msg", exc_info=True)` | ERROR | ✅ Manual flag | When you need error level with traceback |
+| `logger.error("msg")` | ERROR | ❌ None | Regular error, no exception context |
+
+**Production example:**
+```python
+try:
+    connect_to_db()
+except ConnectionError as e:
+    logger.exception("Database connection failed")  # Logs error + full traceback
+    # Don't raise; log and handle gracefully
+except Exception as e:
+    logger.exception("Unexpected error during connection")  # Catches all, logs traceback
+    raise  # Re-raise for higher-level handling
+```
+
+> **Interview tip:** Use `logger.exception()` inside except blocks to capture full tracebacks automatically. It logs at ERROR level with `exc_info=True` implicitly—don't use it outside try-except.
+
+### Common Patterns
+
+| Pattern | Code |
+|---|---|
+| **Log exceptions with traceback** | `logger.exception("Error")` inside except block (auto includes traceback) |
+| **Same format, different destinations** | `formatter.setFormatter(formatter)` for both file and console handlers |
+| **Different levels per handler** | File handler at ERROR, console at INFO |
+| **Context in logs** | `logger.info(f"User {user_id} action completed")` |
+
+### basicConfig vs Handlers (Quick Comparison)
+
+| Aspect | basicConfig | Handlers |
+|---|---|---|
+| Use case | Scripts, throwaway tools | Production, libraries |
+| Destinations | One (all-or-nothing) | Many (stack them) |
+| Logger | Root (global) | Named (scoped) |
+| Flexibility | Low | High |
+| Multiple handlers | ❌ No | ✅ Yes |
+| Per-handler levels | ❌ No | ✅ Yes |
+
+> **Interview tip:** "basicConfig for scripts, handlers for production. Use named loggers with multiple handlers when you need logs in more than one place or at different levels."
 
 ---
 
