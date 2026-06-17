@@ -406,17 +406,20 @@ def fibonacci(n):
 
 From `from collections import ...`:
 
-| Type | Purpose | Example |
-|---|---|---|
-| `defaultdict` | Dict with default value for missing keys | `d = defaultdict(list); d['key'].append(item)` |
-| `Counter` | Count occurrences of elements | `Counter(['a','b','a']) → Counter({'a': 2, 'b': 1})` |
-| `deque` | Double-ended queue, O(1) on both ends | `from collections import deque; d = deque([1,2,3]); d.appendleft(0)` |
-| `namedtuple` | Immutable tuple with named fields | `Point = namedtuple('Point', ['x', 'y']); p = Point(10, 20)` |
-| `OrderedDict` | Dict that remembers insertion order (Python 3.7+ dicts do this by default) | Legacy; use regular dict in modern Python |
+| Type | Purpose | Retrieve Underlying Data | Example |
+|---|---|---|---|
+| `defaultdict` | Dict with default value for missing keys | Direct access (it is a dict) | `d = defaultdict(list); d['key'].append(item)` |
+| `Counter` | Count occurrences of elements | Direct access (subclass of dict) | `Counter(['a','b','a']) → Counter({'a': 2, 'b': 1})` |
+| `deque` | Double-ended queue, O(1) on both ends | Iteration or convert to list | `d = deque([1,2,3]); d.appendleft(0)` |
+| `namedtuple` | Immutable tuple with named fields | Attribute access or `._asdict()` | `Point = namedtuple('Point', ['x', 'y']); p = Point(10, 20); p.x` |
+| `UserString` | Extensible string wrapper | `.data` attribute (original string) | `us = UserString("hello"); print(us.data)` |
+| `UserDict` | Extensible dict wrapper | `.data` attribute (original dict) | `ud = UserDict({'a': 1}); print(ud.data)` |
+| `UserList` | Extensible list wrapper | `.data` attribute (original list) | `ul = UserList([1,2,3]); print(ul.data)` |
+| `OrderedDict` | Dict that remembers insertion order (Python 3.7+ dicts do this by default) | Direct access (legacy, use regular dict) | `od = OrderedDict([('a', 1), ('b', 2)])` |
 
 **Quick collections examples:**
 ```python
-from collections import defaultdict, Counter, deque, namedtuple
+from collections import defaultdict, Counter, deque, namedtuple, UserString, UserDict, UserList
 
 # defaultdict — no KeyError on missing keys
 config = defaultdict(list)
@@ -435,9 +438,186 @@ queue.pop()          # O(1) right pop
 Address = namedtuple('Address', ['ip', 'port'])
 addr = Address('127.0.0.1', 5433)
 print(addr.ip)  # '127.0.0.1'
+
+# UserString, UserDict, UserList — access underlying data via .data
+user_str = UserString("hello")
+print(user_str.data)  # Original string: 'hello'
+
+user_dict = UserDict({'server': 'prod', 'port': 5433})
+print(user_dict.data)  # Original dict: {'server': 'prod', 'port': 5433}
+
+user_list = UserList([1, 2, 3, 4, 5])
+print(user_list.data)  # Original list: [1, 2, 3, 4, 5]
 ```
 
 > **Interview tip:** "I use defaultdict when I need dict behavior without KeyError, Counter for frequency problems, and namedtuple for immutable structured data that might be dict keys or set elements."
+
+---
+
+## ⏱️ Big O Time & Space Complexity
+
+### Common Data Structure Operations
+
+| Operation | list | dict | set | string | Space |
+|---|---|---|---|---|---|
+| **Access by index/key** | O(1) | O(1) avg | N/A | O(1) | O(1) |
+| **Search (contains?)** | O(n) | O(1) avg | O(1) avg | O(n) | O(1) |
+| **Insert at end** | O(1) amortized | O(1) avg | O(1) avg | N/A (immutable) | O(1) |
+| **Insert at middle** | O(n) | N/A | N/A | N/A | O(1) |
+| **Delete element** | O(n) | O(1) avg | O(1) avg | N/A | O(1) |
+| **Iterate all** | O(n) | O(n) | O(n) | O(n) | O(1) |
+| **Slice/substring** | O(k) where k=slice size | N/A | N/A | O(k) copies new string | O(k) |
+| **Sort** | O(n log n) | N/A | N/A | O(n log n) | O(n) or O(1) depending on algorithm |
+| **Compare (==)** | O(n) element-by-element | O(n) key-value pairs | O(n) element-by-element | O(n) character-by-character | O(1) |
+
+### Why String/List Comparison is O(n)
+
+When Python evaluates `word == "work"`, it compares **element by element**:
+```python
+# "word" == "work"
+# Compares: 'w'=='w' (✓) → 'o'=='o' (✓) → 'r'=='r' (✓) → 'd'!='k' (✗)
+# Total comparisons: O(len(word))
+```
+
+### Practical Algorithm Complexity Examples
+
+#### Sliding Window (Finding Substring)
+```python
+# Find if pattern exists in text using sliding window
+def sliding_window(text, pattern):
+    """
+    Time: O(N * M) where N=len(text), M=len(pattern)
+    Why: For each position N in text, compare pattern M characters
+    At each window position, pattern == text[i:i+M] is O(M)
+    """
+    n, m = len(text), len(pattern)
+    for i in range(n - m + 1):
+        if text[i:i+m] == pattern:  # This comparison alone is O(M)
+            return i
+    return -1
+
+# Example: text="hello", pattern="ll"
+# i=0: "he" == "ll"? → O(2) comparisons
+# i=1: "el" == "ll"? → O(2) comparisons
+# i=2: "ll" == "ll"? → O(2) comparisons, MATCH!
+# Total: O(5 * 2) = O(10) = O(N*M)
+```
+
+#### Two Pointers (Finding Pair in Sorted Array)
+```python
+def two_pointer_sum(arr, target):
+    """
+    Time: O(N) where N=len(arr)
+    Why: Each pointer moves exactly once left or right
+    No nested loops, single pass through array
+    """
+    left, right = 0, len(arr) - 1
+    while left < right:
+        current_sum = arr[left] + arr[right]
+        if current_sum == target:
+            return (left, right)
+        elif current_sum < target:
+            left += 1
+        else:
+            right -= 1
+    return None
+
+# Example: arr=[1,3,5,7], target=8
+# Pointer movements: left→right, right→left, etc.
+# Each element visited at most once = O(N)
+```
+
+#### Hash Map Deduplication (vs List Search)
+```python
+# SLOW: Using list search - O(N²)
+def deduplicate_slow(items):
+    """Time: O(N²) because contains check is O(N) for each item"""
+    seen = []
+    for item in items:
+        if item not in seen:  # O(N) search in list
+            seen.append(item)
+    return seen
+
+# FAST: Using set - O(N)
+def deduplicate_fast(items):
+    """Time: O(N) because 'in' check is O(1) for sets"""
+    return list(set(items))
+
+# With 1000 items:
+# List version: ~1,000,000 operations
+# Set version: ~1,000 operations
+```
+
+#### Nested Loop Pitfall - O(N²)
+```python
+# DON'T: Nested loops over same collection
+def has_pair_slow(arr):
+    """Time: O(N²) - comparing each element with every other element"""
+    for i in range(len(arr)):
+        for j in range(i+1, len(arr)):  # Inner loop repeats N times
+            if arr[i] + arr[j] == target:
+                return True
+    return False
+
+# DO: Use hash set - O(N)
+def has_pair_fast(arr, target):
+    """Time: O(N) - single pass with set lookup"""
+    seen = set()
+    for num in arr:
+        if target - num in seen:  # O(1) lookup in set
+            return True
+        seen.add(num)  # O(1) insertion in set
+    return False
+```
+
+### Space Complexity Patterns
+
+| Pattern | Space | Notes |
+|---|---|---|
+| **In-place modification** | O(1) | Modify without extra data structures (reverse array in-place) |
+| **Input copy** | O(n) | Copy input for safety (most scripts do this) |
+| **Hash map/set storage** | O(n) | Store n elements in dict/set for O(1) lookups |
+| **Recursion call stack** | O(h) | h = height of recursion tree (e.g., O(log n) for binary search) |
+| **Output storage** | O(n) | Result needs space (sorting, deduplication, etc.) |
+
+**Example: Space trade-off**
+```python
+# Space: O(1) - But slow: O(N²) time
+def has_pair_no_space(arr, target):
+    for i in range(len(arr)):
+        for j in range(i+1, len(arr)):
+            if arr[i] + arr[j] == target:
+                return True
+
+# Space: O(N) - But fast: O(N) time
+def has_pair_with_space(arr, target):
+    seen = set()  # Extra O(N) space
+    for num in arr:
+        if target - num in seen:
+            return True
+        seen.add(num)
+```
+
+### Interview Checklist: Analyzing Complexity
+
+When solving a problem, ask yourself:
+
+1. **What repeats?** (identifies nested loops → polynomial complexity)
+   - No loop: O(1)
+   - Single loop: O(n)
+   - Nested loops: O(n²), O(n³), etc.
+   - Divide and conquer: O(n log n)
+
+2. **What is the "unit of work"?** (what happens per iteration?)
+   - String/list comparison: O(length of comparison)
+   - Hash lookup: O(1) average
+   - Linear search: O(n)
+
+3. **Do I have a choice?** (time vs space trade-off?)
+   - Set for O(1) lookups (costs O(n) space)
+   - Sorted array for binary search (costs sort time O(n log n))
+
+> **Interview tip:** "I always identify the hidden loops and clarify what the 'unit of work' is per iteration. For example, in sliding window, each window movement is one iteration, but the pattern comparison inside is O(M), making total O(N*M). Don't overlook the cost of comparisons and built-in operations."
 
 ---
 
