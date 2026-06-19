@@ -454,7 +454,7 @@ print(user_list.data)  # Original list: [1, 2, 3, 4, 5]
 
 ---
 
-## ⏱️ Big O Time & Space Complexity
+## 🔍 Complexity Analysis: Common Algorithms
 
 ### Common Data Structure Operations
 
