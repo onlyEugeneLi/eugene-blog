@@ -470,6 +470,8 @@ print(user_list.data)  # Original list: [1, 2, 3, 4, 5]
 | **Sort** | O(n log n) | N/A | N/A | O(n log n) | O(n) or O(1) depending on algorithm |
 | **Compare (==)** | O(n) element-by-element | O(n) key-value pairs | O(n) element-by-element | O(n) character-by-character | O(1) |
 
+> **Note on dict operations:** Most dict operations average O(1) due to hash table implementation, but worst-case is O(n) with hash collisions. Reference: [Python Complexity — dict operations](https://pythoncomplexity.com/builtins/dict/#complexity-reference)
+
 ### Why String/List Comparison is O(n)
 
 When Python evaluates `word == "work"`, it compares **element by element**:
