@@ -371,7 +371,7 @@ def fibonacci(n):
 
 ---
 
-## 📊 Data Structures: Time/Space Complexity
+## 📊 Data Structures & Time/Space Complexity
 
 **Mental model:** Choose your data structure based on how you need to *access, search, or modify* your data.
 
@@ -623,7 +623,19 @@ When solving a problem, ask yourself:
 
 ---
 
-### Basic Structure & Clauses
+## 🔄 Iteration Utilities
+
+| Function | Purpose | Return Type | Time | Space |
+|---|---|---|---|---|
+| `enumerate()` | Track index + item simultaneously | Iterator of (index, item) tuples | O(n) | O(1) |
+| `zip()` | Pair elements from multiple iterables by index | Iterator of tuples | O(n) | O(1) |
+| `reversed()` | Iterate backwards without modifying original | Iterator in reverse order | O(n) | O(1) |
+| `sorted()` | Create sorted copy and iterate | New sorted list | O(n log n) | O(n) |
+| `filter()` | Iterate only matching items (predicate) | Iterator of filtered items | O(n) | O(1) |
+
+---
+
+## 🚨 Exception Handling (try-except)
 
 | Clause | Purpose | Syntax |
 |---|---|---|
