@@ -179,14 +179,29 @@ python script.py --message "Invalid input" --code "400"
 
 ---
 
-## ⚡ map() & lambda
+## ⚡ Operators: lambda, walrus (:=), map(), filter()
 
-| Concept | Syntax | Example | Output |
+| Operator/Function | Syntax | Example | Purpose |
 |---|---|---|---|
-| `lambda` | `lambda args: expression` | `square = lambda x: x**2` | Function object |
-| `map()` | `map(func, iterable)` | `list(map(lambda x: x*2, [1,2,3]))` | `[2, 4, 6]` |
-| `filter()` | `filter(func, iterable)` | `list(filter(lambda x: x>2, [1,2,3,4]))` | `[3, 4]` |
-| List comprehension | `[expr for item in iter if cond]` | `[x*2 for x in [1,2,3] if x>1]` | `[4, 6]` |
+| `lambda` | `lambda args: expression` | `square = lambda x: x**2` | Anonymous function for simple operations |
+| `:=` (walrus) | `(var := expression)` | `if (n := len(data)) > 10: print(n)` | Assign AND use in same expression (Python 3.8+) |
+| `map()` | `map(func, iterable)` | `list(map(lambda x: x*2, [1,2,3]))` | Apply function to all items → `[2, 4, 6]` |
+| `filter()` | `filter(func, iterable)` | `list(filter(lambda x: x>2, [1,2,3,4]))` | Keep only items matching condition → `[3, 4]` |
+| List comprehension | `[expr for item in iter if cond]` | `[x*2 for x in [1,2,3] if x>1]` | Concise alternative to map/filter → `[4, 6]` |
+
+**Walrus operator (:=) examples:**
+```python
+# Without walrus (compute twice)
+result = compute_expensive()
+if result > threshold:
+    print(result)
+
+# In conditionals
+if (n := random.randint(0, 10)) <= 5:
+    print(f"Got {n}, continuing...")
+```
+
+> **Interview tip:** Walrus `:=` reduces redundant computation when you need to use a value in a condition. Use it to avoid calling expensive functions or lookups twice.
 
 **Lambda vs Named Function:**
 ```python
@@ -994,3 +1009,34 @@ def to_int32(val):
 | Subtraction | `(A - B + MOD) % MOD` | Handle negatives correctly |
 | Multiplication | `(A * B) % MOD` | Prevent overflow in intermediate steps |
 | Division | `(A * pow(B, MOD - 2, MOD)) % MOD` | Modular inverse via Fermat's Little Theorem |
+
+---
+
+## ⚙️ Async & Multithreading
+
+### Quick Comparison
+
+| Aspect | Asynchronous (asyncio) | Multithreading |
+|---|---|---|
+| **Analogy** | One efficient cook | Multiple cooks sharing kitchen |
+| **Threads** | Single thread | Multiple threads |
+| **Execution** | Cooperative (yield control) | Preemptive (OS scheduler) |
+| **Best For** | I/O-bound (network, database, file) | CPU-bound heavy processing |
+| **Race Conditions** | ❌ No (single-threaded) | ⚠️ Yes (need locks) |
+| **Shared Memory** | N/A | ⚠️ Requires synchronization |
+| **Complexity** | Low | High |
+| **Syntax** | `async def`, `await` | `Thread()`, `.start()` |
+
+### Real-World Use Cases
+
+| Scenario | Use Async | Use Threading |
+|---|---|---|
+| Loading feed from server (wait 2s, UI stays responsive) | ✅ Yes | ❌ No |
+| Image filter on millions of pixels (heavy CPU math) | ❌ No | ✅ Yes |
+| Web scraping 100 URLs simultaneously | ✅ Yes | ❌ No |
+| Image processing with parallel threads | ❌ No | ✅ Yes |
+| Database query while keeping UI responsive | ✅ Yes | ❌ No |
+
+> **Rule of thumb:** Async for waiting (I/O), Threading for computing (CPU).
+
+---
