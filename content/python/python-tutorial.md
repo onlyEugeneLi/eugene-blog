@@ -714,6 +714,31 @@ finally:
 | `RuntimeError` | Generic runtime error | Raised by user code |
 
 ### Raise Custom Exceptions
+
+**Pattern: Always call `super().__init__(message)` in custom exceptions:**
+
+```python
+class ValidationError(Exception):
+    def __init__(self, **kwargs):
+        self.message = kwargs.get("message", "Default validation error")
+        self.code = kwargs.get("code", "500")
+        super().__init__(self.message)  # ← Pass message to Exception
+
+# Proper usage
+try:
+    raise ValidationError(message="Bad input", code="400")
+except ValidationError as e:
+    print(e)  # Prints: Bad input (message displays correctly)
+    print(e.code)  # Prints: 400 (custom attribute accessible)
+```
+
+**Why `super().__init__(message)` is required:**
+- Stores message in `Exception.args` so exception displays when raised/logged
+- Without it, `str(e)` prints empty or garbage
+- Tracebacks show proper error message
+- Logging captures the right context
+
+**Simple custom exception:**
 ```python
 if age < 0:
     raise ValueError("Age cannot be negative")
