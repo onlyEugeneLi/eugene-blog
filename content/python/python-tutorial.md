@@ -1037,6 +1037,57 @@ def to_int32(val):
 
 ---
 
+## 🔁 Generators
+
+**What:** Function using `yield` instead of `return` that returns data one piece at a time on demand (lazy evaluation).
+
+| Aspect | Generator Function | Generator Expression |
+|---|---|---|
+| **Syntax** | `def func(): yield value` | `(expr for item in iterable)` |
+| **Memory** | O(1) — streams data | O(1) — lazy evaluation |
+| **When to use** | Complex logic, state management | Simple transformations |
+| **Example** | `def read_logs(file): yield line` | `(x*2 for x in range(1000000))` |
+| **vs List** | Streams 10GB file safely | List comprehension loads all into RAM |
+
+### return vs yield
+
+| Keyword | Behavior | State |
+|---|---|---|
+| `return` | Terminates function, returns entire result | Destroys local variables |
+| `yield` | Pauses function, returns single value | Freezes execution state, resumes next call |
+
+**Production example:**
+```python
+# Stream massive log file safely (no OOM crash)
+def stream_logs(file_path: str):
+    with open(file_path, "r") as file:
+        for line in file:
+            if "ERROR" in line:
+                yield line.strip()  # Return one line at a time
+
+# Usage — file NOT loaded into memory
+for error in stream_logs("massive_10gb.log"):
+    process(error)  # Process one error per iteration
+```
+
+### Generator Exhaustion (Important!)
+
+Generators are **one-shot**: once consumed, they're empty. Must re-instantiate to iterate again.
+
+```python
+gen = (x*2 for x in range(3))
+list(gen)  # [0, 2, 4]
+list(gen)  # [] ← Empty! Generator exhausted
+
+# Must create new generator
+gen = (x*2 for x in range(3))
+list(gen)  # [0, 2, 4] ← Works
+```
+
+> **Interview tip:** "Generators trade CPU cycles for space savings—O(1) memory regardless of dataset size. Use for file streaming, API pagination, live event processing. Remember: generators exhaust after one pass."
+
+---
+
 ## ⚙️ Async & Multithreading
 
 ### Quick Comparison
