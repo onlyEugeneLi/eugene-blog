@@ -640,13 +640,63 @@ When solving a problem, ask yourself:
 
 ## 🔄 Iteration Utilities
 
+### Core Iteration Functions
+
 | Function | Purpose | Return Type | Time | Space |
 |---|---|---|---|---|
 | `enumerate()` | Track index + item simultaneously | Iterator of (index, item) tuples | O(n) | O(1) |
 | `zip()` | Pair elements from multiple iterables by index | Iterator of tuples | O(n) | O(1) |
+| `zip(*iterables, strict=True)` | Zip with length validation (3.10+) | Iterator of tuples | O(n) | O(1) |
 | `reversed()` | Iterate backwards without modifying original | Iterator in reverse order | O(n) | O(1) |
 | `sorted()` | Create sorted copy and iterate | New sorted list | O(n log n) | O(n) |
 | `filter()` | Iterate only matching items (predicate) | Iterator of filtered items | O(n) | O(1) |
+
+### Additional Iteration Helpers
+
+| Function | Purpose | Return Type | Time | Space |
+|---|---|---|---|---|
+| `iter(iterable)` | Convert to iterator explicitly | Iterator object | O(1) | O(1) |
+| `next(iterator)` | Get next item from iterator | Single item | O(1) | O(1) |
+| `map()` | Apply function to all items | Iterator of results | O(n) | O(1) |
+| `all()` | Check if all items are truthy | Boolean | O(n) | O(1) |
+| `any()` | Check if any item is truthy | Boolean | O(n) | O(1) |
+| `sum(iterable, start=0)` | Sum all items | Number | O(n) | O(1) |
+| `min(iterable)`, `max(iterable)` | Find minimum/maximum | Item | O(n) | O(1) |
+
+### Quick Reference Examples
+
+```python
+# enumerate() — index + item
+for idx, item in enumerate(['a', 'b', 'c'], start=1):
+    print(f"{idx}: {item}")  # 1: a, 2: b, 3: c
+
+# zip() — pair multiple lists
+for name, age in zip(['Alice', 'Bob'], [30, 25]):
+    print(f"{name} is {age}")  # Alice is 30, Bob is 25
+
+# reversed() — iterate backwards
+for item in reversed([1, 2, 3]):
+    print(item)  # 3, 2, 1
+
+# sorted() — sort and iterate
+for item in sorted([3, 1, 2]):
+    print(item)  # 1, 2, 3
+
+# filter() — conditional iteration
+for x in filter(lambda n: n > 2, [1, 2, 3, 4]):
+    print(x)  # 3, 4
+
+# all() / any() — check conditions
+print(all(x > 0 for x in [1, 2, 3]))  # True
+print(any(x < 0 for x in [1, -2, 3]))  # True
+
+# sum() / min() / max()
+print(sum([1, 2, 3]))  # 6
+print(min([3, 1, 2]))  # 1
+print(max([3, 1, 2]))  # 3
+```
+
+> **Interview tip:** Use `enumerate()` to avoid manual index tracking. Chain `zip()` with `enumerate()` for index + paired items. Prefer built-in functions (`all()`, `any()`, `sum()`) over loops—they're optimized and readable.
 
 ---
 
